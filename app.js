@@ -125,6 +125,8 @@
       goHome();
     });
 
+    window.addEventListener("popstate", applyRouteFromLocation);
+
     els.sidebarToggle.addEventListener("click", function () {
       if (isMobileLayout()) {
         closeMobileSidebar();
@@ -474,37 +476,87 @@
     selectNode(node.id, { skipViewedUpdate: true });
   }
 
-  function goHome() {
+  function getRouteFromLocation() {
+    const hash = window.location.hash.replace(/^#\/?/, "");
+    if (!hash) return null;
+
+    const parts = hash.split("/");
+    const routeType = parts.shift();
+    const id = decodeURIComponent(parts.join("/"));
+    if ((routeType !== "module" && routeType !== "lesson") || !id) {
+      return null;
+    }
+
+    return { type: routeType, id };
+  }
+
+  function getHomeUrl() {
+    return `${window.location.pathname}${window.location.search}`;
+  }
+
+  function getNodeUrl(node) {
+    const routeType = node.type === "lesson" ? "lesson" : "module";
+    return `${window.location.pathname}${window.location.search}#/${routeType}/${encodeURIComponent(node.id)}`;
+  }
+
+  function replaceRoute(url, routeState) {
+    if (window.location.pathname + window.location.search + window.location.hash === url) return;
+    window.history.replaceState(routeState, "", url);
+  }
+
+  function pushRoute(url, routeState) {
+    if (window.location.pathname + window.location.search + window.location.hash === url) return;
+    window.history.pushState(routeState, "", url);
+  }
+
+  function updateRouteForNode(node, options) {
+    if (!node || (options && options.skipRoute)) return;
+
+    const url = getNodeUrl(node);
+    const routeState = { abvcRoute: node.id };
+    const hasViewerRoute = Boolean(getRouteFromLocation());
+    if (hasViewerRoute || (options && options.replaceRoute)) {
+      replaceRoute(url, routeState);
+      return;
+    }
+
+    pushRoute(url, routeState);
+  }
+
+  function updateRouteForHome(options) {
+    if (options && options.skipRoute) return;
+    replaceRoute(getHomeUrl(), { abvcRoute: "home" });
+  }
+
+  function applyRouteFromLocation() {
+    const route = getRouteFromLocation();
+    if (route) {
+      const node = state.nodesById.get(route.id);
+      if (node) {
+        selectNode(node.id, { skipViewedUpdate: true, skipRoute: true });
+        return;
+      }
+    }
+
+    goHome({ skipRoute: true });
+  }
+
+  function goHome(options) {
     clearCompletionGate();
     state.search = "";
     els.search.value = "";
-    renderOverview();
+    renderOverview(options);
     render();
     closeMobileSidebarAfterNavigation();
     scrollMobileContentToTop();
   }
 
   function goBack() {
-    const selected = state.selectedId ? state.nodesById.get(state.selectedId) : null;
-    if (!selected) {
-      renderOverview();
-      render();
-      return;
-    }
-
-    const parent = state.parentsById.get(selected.id);
-    if (parent) {
-      selectNode(parent.id, { skipViewedUpdate: true });
-      return;
-    }
-
-    renderOverview();
-    render();
+    goHome();
   }
 
   function selectInitialContent() {
-    renderOverview();
-    render();
+    applyRouteFromLocation();
   }
 
   function selectNode(id, options) {
@@ -513,6 +565,7 @@
 
     clearCompletionGate();
     state.selectedId = id;
+    updateRouteForNode(node, options);
     getAncestors(id).forEach(function (ancestor) {
       state.openIds.add(ancestor.id);
     });
@@ -532,10 +585,11 @@
     scrollMobileContentToTop();
   }
 
-  function renderOverview() {
+  function renderOverview(options) {
     const stats = getReadyStats(state.lessons);
     clearTags();
     state.selectedId = null;
+    updateRouteForHome(options);
     setContentMode("hub");
     updateBackButton();
     hideLessonDescription();
@@ -622,10 +676,9 @@
     els.backButton.hidden = !selected;
     if (!selected) return;
 
-    const parent = state.parentsById.get(selected.id);
     els.backButton.textContent = "←";
-    els.backButton.setAttribute("aria-label", parent ? `Back to ${getDisplayTitle(parent)}` : "Back to Skills");
-    els.backButton.title = parent ? `Back to ${getDisplayTitle(parent)}` : "Back to Skills";
+    els.backButton.setAttribute("aria-label", "Back to Skills");
+    els.backButton.title = "Back to Skills";
   }
 
   function hidePlaylist() {
