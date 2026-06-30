@@ -1115,18 +1115,27 @@ h3 {
   }
 
   .mobile-menu-button {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.1rem;
-    margin-bottom: 0.65rem;
+    display: inline-grid;
+    place-items: center;
+    gap: 0.18rem;
+    width: 2.35rem;
+    height: 2.35rem;
+    min-height: 0;
+    margin-bottom: 0.55rem;
     border: 1px solid var(--line-strong);
-    border-radius: 999px;
+    border-radius: 8px;
     background: var(--gray-button);
     color: var(--ink);
-    padding: 0.4rem 0.72rem;
+    padding: 0;
     cursor: pointer;
-    font-size: 0.76rem;
-    font-weight: 650;
+  }
+
+  .mobile-menu-button span {
+    display: block;
+    width: 1.05rem;
+    height: 0.1rem;
+    border-radius: 999px;
+    background: currentColor;
   }
 
   .app-shell.is-sidebar-collapsed .brand-lockup {
