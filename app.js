@@ -495,6 +495,7 @@
     }
 
     render();
+    scrollMobileContentToTop();
   }
 
   function renderOverview() {
@@ -1002,6 +1003,8 @@
         els.completeButton.disabled = false;
         els.completeButton.textContent = "Completed";
       } else {
+        els.completeButton.disabled = false;
+        els.completeButton.textContent = "Mark Complete";
         startCompletionGate(lesson);
       }
       els.nextButton.disabled = !complete || !getNextLesson();
@@ -1023,8 +1026,7 @@
 
     state.completionGate.lessonId = lesson.id;
     state.completionGate.remaining = COMPLETION_GATE_SECONDS;
-    state.completionGate.unlocked = false;
-    updateCompletionGateButton();
+    state.completionGate.unlocked = true;
 
     state.completionGate.timerId = window.setInterval(function () {
       if (state.selectedId !== lesson.id) {
@@ -1037,9 +1039,9 @@
         window.clearInterval(state.completionGate.timerId);
         state.completionGate.timerId = null;
         state.completionGate.remaining = 0;
-        state.completionGate.unlocked = true;
+        markComplete(lesson.id);
+        return;
       }
-      updateCompletionGateButton();
     }, 1000);
   }
 
@@ -1053,20 +1055,6 @@
       remaining: COMPLETION_GATE_SECONDS,
       unlocked: false
     };
-  }
-
-  function updateCompletionGateButton() {
-    const selected = state.selectedId ? state.nodesById.get(state.selectedId) : null;
-    if (!selected || selected.type !== "lesson" || selected.id !== state.completionGate.lessonId) return;
-
-    if (state.completionGate.unlocked) {
-      els.completeButton.disabled = false;
-      els.completeButton.textContent = "Mark Complete";
-      return;
-    }
-
-    els.completeButton.disabled = true;
-    els.completeButton.textContent = `Watch ${state.completionGate.remaining}s to complete`;
   }
 
   function markViewed(id) {
@@ -1094,18 +1082,6 @@
   }
 
   function toggleComplete(id) {
-    const selected = state.nodesById.get(id);
-    const alreadyCompleted = state.progress.completed.includes(id);
-    if (
-      selected &&
-      selected.type === "lesson" &&
-      !alreadyCompleted &&
-      isLessonReady(selected) &&
-      (state.completionGate.lessonId !== id || !state.completionGate.unlocked)
-    ) {
-      return;
-    }
-
     const completed = state.progress.completed;
     const index = completed.indexOf(id);
     if (index >= 0) {
@@ -1236,6 +1212,14 @@
     if (!array.includes(value)) {
       array.push(value);
     }
+  }
+
+  function scrollMobileContentToTop() {
+    if (!isMobileLayout()) return;
+
+    window.requestAnimationFrame(function () {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    });
   }
 
   function renderError(error) {
