@@ -1,7 +1,8 @@
 (function () {
   const STORAGE_KEY = "abvcCourseProgress.v1";
   const THEME_KEY = "abvcCourseTheme.v1";
-  const EMAIL_POPUP_KEY = "abvcEmailPopupShown.v1";
+  const EMAIL_POPUP_KEY = "abvcEmailPopupShown.v2";
+  const COMPLETION_GATE_SECONDS = 15;
   const MAILCHIMP_POPUP_SRC = "https://chimpstatic.com/mcjs-connected/js/users/8a5a40781b8eb0233e2a99b61/4158b259b9c6bb504e699e1d3.js";
 
   const state = {
@@ -16,6 +17,12 @@
       viewed: [],
       completed: [],
       lastLessonId: null
+    },
+    completionGate: {
+      lessonId: null,
+      timerId: null,
+      remaining: COMPLETION_GATE_SECONDS,
+      unlocked: false
     }
   };
 
@@ -470,6 +477,7 @@
     const node = state.nodesById.get(id);
     if (!node) return;
 
+    clearCompletionGate();
     state.selectedId = id;
     getAncestors(id).forEach(function (ancestor) {
       state.openIds.add(ancestor.id);
@@ -571,7 +579,9 @@
     if (!selected) return;
 
     const parent = state.parentsById.get(selected.id);
-    els.backButton.textContent = parent ? `Back to ${parent.title}` : "Back to Skills";
+    els.backButton.textContent = "←";
+    els.backButton.setAttribute("aria-label", parent ? `Back to ${parent.title}` : "Back to Skills");
+    els.backButton.title = parent ? `Back to ${parent.title}` : "Back to Skills";
   }
 
   function hidePlaylist() {
@@ -844,7 +854,7 @@
     inner.innerHTML = '<span class="play-badge" aria-hidden="true"></span><p>Play</p>';
     button.appendChild(inner);
     button.addEventListener("click", function () {
-      markComplete(lesson.id);
+      markViewed(lesson.id);
       const iframe = document.createElement("iframe");
       iframe.src = getYouTubeEmbedUrl(lesson);
       iframe.title = lesson.title;
@@ -874,7 +884,7 @@
     link.setAttribute("aria-label", `Open ${lesson.title} video`);
     link.innerHTML = '<span class="video-placeholder"><span class="play-badge" aria-hidden="true"></span><p>Open the linked video</p></span>';
     link.addEventListener("click", function () {
-      markComplete(lesson.id);
+      markViewed(lesson.id);
     });
     els.videoMount.replaceWith(link);
     els.videoMount = link;
@@ -988,8 +998,12 @@
       els.nextButton.disabled = !getNextLesson();
     } else {
       els.lessonStatus.textContent = complete ? "Completed" : "Ready";
-      els.completeButton.disabled = false;
-      els.completeButton.textContent = complete ? "Completed" : "Mark Complete";
+      if (complete) {
+        els.completeButton.disabled = false;
+        els.completeButton.textContent = "Completed";
+      } else {
+        startCompletionGate(lesson);
+      }
       els.nextButton.disabled = !complete || !getNextLesson();
     }
 
@@ -999,6 +1013,67 @@
       lessons: scope.lessons,
       activeLessonId: lesson.id
     });
+  }
+
+  function startCompletionGate(lesson) {
+    if (!lesson || !isLessonReady(lesson) || state.progress.completed.includes(lesson.id)) {
+      clearCompletionGate();
+      return;
+    }
+
+    state.completionGate.lessonId = lesson.id;
+    state.completionGate.remaining = COMPLETION_GATE_SECONDS;
+    state.completionGate.unlocked = false;
+    updateCompletionGateButton();
+
+    state.completionGate.timerId = window.setInterval(function () {
+      if (state.selectedId !== lesson.id) {
+        clearCompletionGate();
+        return;
+      }
+
+      state.completionGate.remaining -= 1;
+      if (state.completionGate.remaining <= 0) {
+        window.clearInterval(state.completionGate.timerId);
+        state.completionGate.timerId = null;
+        state.completionGate.remaining = 0;
+        state.completionGate.unlocked = true;
+      }
+      updateCompletionGateButton();
+    }, 1000);
+  }
+
+  function clearCompletionGate() {
+    if (state.completionGate.timerId) {
+      window.clearInterval(state.completionGate.timerId);
+    }
+    state.completionGate = {
+      lessonId: null,
+      timerId: null,
+      remaining: COMPLETION_GATE_SECONDS,
+      unlocked: false
+    };
+  }
+
+  function updateCompletionGateButton() {
+    const selected = state.selectedId ? state.nodesById.get(state.selectedId) : null;
+    if (!selected || selected.type !== "lesson" || selected.id !== state.completionGate.lessonId) return;
+
+    if (state.completionGate.unlocked) {
+      els.completeButton.disabled = false;
+      els.completeButton.textContent = "Mark Complete";
+      return;
+    }
+
+    els.completeButton.disabled = true;
+    els.completeButton.textContent = `Watch ${state.completionGate.remaining}s to complete`;
+  }
+
+  function markViewed(id) {
+    pushUnique(state.progress.viewed, id);
+    state.progress.lastLessonId = id;
+    saveProgress();
+    renderProgress();
   }
 
   function markComplete(id) {
@@ -1019,6 +1094,18 @@
   }
 
   function toggleComplete(id) {
+    const selected = state.nodesById.get(id);
+    const alreadyCompleted = state.progress.completed.includes(id);
+    if (
+      selected &&
+      selected.type === "lesson" &&
+      !alreadyCompleted &&
+      isLessonReady(selected) &&
+      (state.completionGate.lessonId !== id || !state.completionGate.unlocked)
+    ) {
+      return;
+    }
+
     const completed = state.progress.completed;
     const index = completed.indexOf(id);
     if (index >= 0) {

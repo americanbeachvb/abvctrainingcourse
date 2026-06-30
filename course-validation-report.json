@@ -1,18 +1,12 @@
 {
-  "generatedAt": "2026-06-30T02:01:14.600Z",
-  "source": {
-    "lessonsFromExistingInventory": 230,
-    "validCorrectedUrlRows": 59,
-    "skippedCorrectedUrlRows": 1,
-    "correctedUrlRowsTotalIncludingSkipped": 60
-  },
+  "generatedAt": "2026-06-30T06:23:29.012Z",
+  "note": "Welcome to ABVC, Informal Lessons, and Coaching are temporarily removed from the public course modules.",
   "summary": {
-    "totalLessons": 230,
+    "totalLessons": 221,
     "totalReadyLessons": 59,
-    "totalComingSoonLessons": 171
+    "totalComingSoonLessons": 162
   },
   "totalLessonsByFinalCategory": {
-    "Welcome to ABVC": 2,
     "Strategy": 3,
     "Setting": 18,
     "Serving": 14,
@@ -25,30 +19,20 @@
     "Defense": 33,
     "Culture": 20,
     "Blocking": 9,
-    "Coaching": 6,
-    "Plyos": 13,
-    "Informal Lessons": 1
+    "Plyos": 13
   },
   "readyLessonsByFinalCategory": {
-    "Welcome to ABVC": 0,
-    "Strategy": 0,
     "Setting": 12,
-    "Serving": 0,
     "Passing": 11,
     "On 2 Mindset / Attack on Two": 2,
     "Jump Serve": 1,
     "Hitting": 5,
-    "Game Like Training": 0,
     "Float Serve": 6,
     "Defense": 17,
     "Culture": 4,
-    "Blocking": 1,
-    "Coaching": 0,
-    "Plyos": 0,
-    "Informal Lessons": 0
+    "Blocking": 1
   },
   "comingSoonLessonsByFinalCategory": {
-    "Welcome to ABVC": 2,
     "Strategy": 3,
     "Setting": 6,
     "Serving": 14,
@@ -61,12 +45,9 @@
     "Defense": 16,
     "Culture": 16,
     "Blocking": 8,
-    "Coaching": 6,
-    "Plyos": 13,
-    "Informal Lessons": 1
+    "Plyos": 13
   },
   "userFacingTopLevelCategories": [
-    "Welcome to ABVC",
     "Strategy",
     "Setting",
     "Serving",
@@ -79,11 +60,14 @@
     "Defense",
     "Culture",
     "Blocking",
-    "Coaching",
-    "Plyos",
-    "Informal Lessons"
+    "Plyos"
   ],
   "prohibitedUserFacingSections": [],
+  "removedTemporaryCategories": [
+    "Welcome to ABVC",
+    "Informal Lessons",
+    "Coaching"
+  ],
   "unmatchedCorrectedUrlRows": [],
   "skippedCorrectedUrlRows": [
     {
@@ -92,6 +76,7 @@
       "reason": "Skipped because the row has no YouTube video id."
     }
   ],
+  "duplicateTitles": [],
   "oldPublishedRowsWithoutCorrectedUrl": [
     {
       "title": "Blocking 1 - Block and Pull Basics",
@@ -101,8 +86,5 @@
       "oldPublishedTitle": "How to Block and Pull",
       "oldMatchNotes": "manual, likely same topic"
     }
-  ],
-  "duplicateTitles": [],
-  "duplicateCorrectedRows": [],
-  "exactDuplicateRowsDropped": []
+  ]
 }

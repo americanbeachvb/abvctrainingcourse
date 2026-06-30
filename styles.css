@@ -570,15 +570,24 @@ h3 {
 }
 
 .back-button {
-  min-height: 2rem;
+  position: fixed;
+  z-index: 18;
+  bottom: 1rem;
+  left: calc(var(--sidebar-width) + 1rem);
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  min-height: 0;
   border: 1px solid var(--line-strong);
   border-radius: 999px;
   background: var(--gray-button);
   color: var(--ink);
-  padding: 0.38rem 0.68rem;
+  padding: 0;
   cursor: pointer;
-  font-size: 0.74rem;
+  font-size: 1.25rem;
   font-weight: 600;
+  box-shadow: var(--shadow);
 }
 
 .back-button:hover {
@@ -1184,6 +1193,11 @@ h3 {
     grid-template-columns: 1fr;
   }
 
+  .back-button {
+    left: 0.85rem;
+    bottom: 0.85rem;
+  }
+
   .lesson-header {
     align-items: start;
   }
@@ -1226,11 +1240,24 @@ h3 {
   .course-playlist.is-collapsed .playlist-list {
     display: none;
   }
+
+  .app-shell[data-mode="hub"] .lesson-main {
+    min-height: 100dvh;
+  }
+
+  .app-shell[data-mode="hub"] .skill-hub {
+    min-height: calc(100dvh - 10rem);
+  }
+
+  .app-shell[data-mode="hub"] .skill-card {
+    min-height: 5.5rem;
+  }
 }
 
 @media (max-width: 560px) {
   .lesson-main {
     padding: 0.65rem;
+    padding-bottom: 4.2rem;
   }
 
   h2 {
