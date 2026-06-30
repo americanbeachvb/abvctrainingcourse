@@ -834,6 +834,11 @@ h3 {
   white-space: nowrap;
 }
 
+.lesson-status:empty,
+.playlist-row-status:empty {
+  display: none;
+}
+
 .course-playlist {
   display: grid;
   gap: 0.65rem;

@@ -323,7 +323,7 @@
     const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
 
     els.progressLabel.textContent = `${percent}% complete`;
-    els.lessonCount.textContent = `${completed}/${total} ready lessons`;
+    els.lessonCount.textContent = `${completed}/${total} videos`;
     els.progressFill.style.width = `${percent}%`;
     els.resumeButton.disabled = !getResumeLesson();
   }
@@ -532,9 +532,9 @@
     updateBackButton();
     hideLessonDescription();
     hidePlaylist();
-    els.lessonPath.textContent = "Skill Hub";
+    els.lessonPath.textContent = "American Beach Volleyball Club";
     els.lessonTitle.textContent = state.data.course.title;
-    els.lessonStatus.textContent = `${stats.ready}/${stats.total} ready`;
+    els.lessonStatus.textContent = `${stats.ready}/${stats.total} available`;
     renderSkillHub({
       title: "Choose Your Skill",
       nodes: state.data.course.modules || [],
@@ -554,7 +554,7 @@
 
     els.lessonPath.textContent = getPath(module.id);
     els.lessonTitle.textContent = module.title;
-    els.lessonStatus.textContent = lessons.length ? `${stats.ready}/${stats.total} ready` : "Coming soon";
+    els.lessonStatus.textContent = lessons.length ? `${stats.ready}/${stats.total} available` : "Coming soon";
     if ((module.children || []).some(function (child) { return child.type !== "lesson"; })) {
       renderSkillHub({
         title: "Choose a Section",
@@ -684,7 +684,7 @@
     summary.className = "playlist-summary";
 
     const ready = document.createElement("span");
-    ready.textContent = `${readyLessons.length} ready`;
+    ready.textContent = `${readyLessons.length} available`;
 
     const soon = document.createElement("span");
     soon.textContent = `${comingSoon} coming soon`;
@@ -990,7 +990,7 @@
 
   function getSkillCardMeta(node) {
     if (node.type === "lesson") {
-      return isLessonReady(node) ? "Ready" : "Coming Soon";
+      return isLessonReady(node) ? "" : "Coming Soon";
     }
 
     if (hasSubsections(node)) {
@@ -1002,7 +1002,7 @@
 
     const lessons = getDescendantLessons(node);
     const stats = getReadyStats(lessons);
-    return `${stats.ready}/${stats.total} ready`;
+    return `${stats.ready}/${stats.total} available`;
   }
 
   function getSkillCardAction(node) {
@@ -1103,7 +1103,7 @@
 
   function getLessonStatusLabel(lesson) {
     if (state.progress.completed.includes(lesson.id)) return "Done";
-    if (isLessonReady(lesson)) return "Ready";
+    if (isLessonReady(lesson)) return "";
     return "Coming Soon";
   }
 
@@ -1208,7 +1208,7 @@
       els.completeButton.textContent = "Coming Soon";
       els.nextButton.disabled = !getNextLesson();
     } else {
-      els.lessonStatus.textContent = complete ? "Completed" : "Ready";
+      els.lessonStatus.textContent = complete ? "Completed" : "";
       if (complete) {
         els.completeButton.disabled = false;
         els.completeButton.textContent = "Completed";
