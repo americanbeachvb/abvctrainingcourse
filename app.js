@@ -55,6 +55,7 @@
     mobileModulePanel: document.getElementById("mobileModulePanel"),
     mobileCoursePlaylist: document.getElementById("mobileCoursePlaylist"),
     lessonActions: document.querySelector(".lesson-actions"),
+    seriesCompletePanel: document.getElementById("seriesCompletePanel"),
     lessonDetails: document.querySelector(".lesson-details"),
     videoMount: document.getElementById("videoMount"),
     completeButton: document.getElementById("completeButton"),
@@ -197,6 +198,13 @@
       const next = getNextLesson();
       if (next) {
         selectNode(next.id);
+        return;
+      }
+
+      const selected = state.selectedId ? state.nodesById.get(state.selectedId) : null;
+      const nextSeries = selected && selected.type === "lesson" ? getNextSeriesTarget(selected) : null;
+      if (nextSeries) {
+        animateSeriesAdvance(nextSeries);
       }
     });
   }
@@ -598,6 +606,8 @@
     els.mobileLessonProgress.hidden = !isLesson;
     els.mobileModulePanel.hidden = !isLesson;
     els.lessonActions.hidden = !isLesson;
+    els.seriesCompletePanel.hidden = true;
+    els.seriesCompletePanel.replaceChildren();
     els.lessonDetails.hidden = true;
   }
 
@@ -625,6 +635,8 @@
     els.mobileModulePanel.hidden = true;
     els.mobileCoursePlaylist.hidden = true;
     els.mobileCoursePlaylist.replaceChildren();
+    els.seriesCompletePanel.hidden = true;
+    els.seriesCompletePanel.replaceChildren();
   }
 
   function renderPlaylist(options) {
@@ -726,7 +738,7 @@
     const currentIndex = lessons.findIndex(function (lesson) {
       return lesson.id === options.activeLessonId;
     });
-    const nextLesson = currentIndex >= 0 ? lessons[currentIndex + 1] : null;
+    const nextLesson = getNextReadyLessonInList(lessons, options.activeLessonId);
 
     els.mobileModulePanel.hidden = false;
     els.mobileCoursePlaylist.hidden = false;
@@ -1207,6 +1219,7 @@
       els.completeButton.disabled = true;
       els.completeButton.textContent = "Coming Soon";
       els.nextButton.disabled = !getNextLesson();
+      els.nextButton.textContent = "Next Lesson";
     } else {
       els.lessonStatus.textContent = complete ? "Completed" : "";
       if (complete) {
@@ -1217,7 +1230,7 @@
         els.completeButton.textContent = "Mark Complete";
         startCompletionGate(lesson);
       }
-      els.nextButton.disabled = !complete || !getNextLesson();
+      updateNextAction(lesson, complete);
     }
 
     const scope = getLessonScope(lesson);
@@ -1226,6 +1239,75 @@
       lessons: scope.lessons,
       activeLessonId: lesson.id
     });
+    renderSeriesCompletePanel(lesson, complete);
+  }
+
+  function updateNextAction(lesson, complete) {
+    const next = getNextLesson();
+    if (next) {
+      els.nextButton.textContent = "Next Lesson";
+      els.nextButton.disabled = !complete;
+      return;
+    }
+
+    const nextSeries = getNextSeriesTarget(lesson);
+    if (nextSeries && complete && isSeriesComplete(getLessonSeries(lesson))) {
+      els.nextButton.textContent = "Next Series";
+      els.nextButton.disabled = false;
+      return;
+    }
+
+    els.nextButton.textContent = nextSeries ? "Next Series" : "Course Complete";
+    els.nextButton.disabled = true;
+  }
+
+  function renderSeriesCompletePanel(lesson, complete) {
+    els.seriesCompletePanel.replaceChildren();
+    const series = getLessonSeries(lesson);
+    const nextSeries = getNextSeriesTarget(lesson);
+    if (!complete || getNextLesson() || !isSeriesComplete(series) || !nextSeries) {
+      els.seriesCompletePanel.hidden = true;
+      return;
+    }
+
+    els.seriesCompletePanel.hidden = false;
+
+    const check = document.createElement("span");
+    check.className = "series-check";
+    check.setAttribute("aria-hidden", "true");
+
+    const copy = document.createElement("div");
+    copy.className = "series-complete-copy";
+
+    const eyebrow = document.createElement("p");
+    eyebrow.textContent = "Series complete";
+
+    const title = document.createElement("h3");
+    title.textContent = `Next series: ${nextSeries.series.title}`;
+
+    const note = document.createElement("span");
+    note.textContent = "Keep the rhythm going.";
+    copy.append(eyebrow, title, note);
+
+    const button = document.createElement("button");
+    button.className = "button button-primary series-next-button";
+    button.type = "button";
+    button.textContent = "Next Series";
+    button.addEventListener("click", function () {
+      animateSeriesAdvance(nextSeries);
+    });
+
+    els.seriesCompletePanel.append(check, copy, button);
+  }
+
+  function animateSeriesAdvance(nextSeries) {
+    els.seriesCompletePanel.hidden = false;
+    els.seriesCompletePanel.classList.add("is-advancing");
+
+    window.setTimeout(function () {
+      els.seriesCompletePanel.classList.remove("is-advancing");
+      selectNode(nextSeries.lesson.id);
+    }, 720);
   }
 
   function startCompletionGate(lesson) {
@@ -1307,16 +1389,16 @@
 
   function getNextLesson() {
     if (!state.lessons.length) return null;
-    if (!state.selectedId) return state.lessons[0];
+    if (!state.selectedId) return state.lessons.find(isLessonReady) || state.lessons[0];
 
     const selected = state.nodesById.get(state.selectedId);
-    if (!selected) return state.lessons[0];
+    if (!selected) return state.lessons.find(isLessonReady) || state.lessons[0];
 
     if (selected.type !== "lesson") {
       const lessons = getDescendantLessons(selected);
       return lessons.find(function (lesson) {
-        return !state.progress.completed.includes(lesson.id);
-      }) || lessons[0] || null;
+        return isLessonReady(lesson) && !state.progress.completed.includes(lesson.id);
+      }) || lessons.find(isLessonReady) || lessons[0] || null;
     }
 
     const scope = getLessonScope(selected);
@@ -1325,10 +1407,82 @@
     });
 
     if (currentIndex < 0) {
-      return scope.lessons[0] || null;
+      return scope.lessons.find(isLessonReady) || scope.lessons[0] || null;
     }
 
-    return scope.lessons[currentIndex + 1] || null;
+    return getNextReadyLessonInList(scope.lessons, selected.id);
+  }
+
+  function getNextReadyLessonInList(lessons, currentLessonId) {
+    const currentIndex = lessons.findIndex(function (lesson) {
+      return lesson.id === currentLessonId;
+    });
+    if (currentIndex < 0) return lessons.find(isLessonReady) || null;
+
+    for (let index = currentIndex + 1; index < lessons.length; index += 1) {
+      if (isLessonReady(lessons[index])) return lessons[index];
+    }
+
+    return null;
+  }
+
+  function getLessonSeries(lesson) {
+    if (!lesson || lesson.type !== "lesson") return null;
+    return state.parentsById.get(lesson.id) || null;
+  }
+
+  function getSeriesList() {
+    const series = [];
+    (state.data.course.modules || []).forEach(function (node) {
+      collectSeries(node, series);
+    });
+    return series;
+  }
+
+  function collectSeries(node, series) {
+    if (!node || node.type === "lesson") return;
+    if (getDescendantLessons(node).length && !hasSubsections(node)) {
+      series.push(node);
+      return;
+    }
+    (node.children || []).forEach(function (child) {
+      collectSeries(child, series);
+    });
+  }
+
+  function isSeriesComplete(series) {
+    if (!series) return false;
+    const readyLessons = getDescendantLessons(series).filter(isLessonReady);
+    return readyLessons.length > 0 && readyLessons.every(function (lesson) {
+      return state.progress.completed.includes(lesson.id);
+    });
+  }
+
+  function getNextSeriesTarget(lesson) {
+    const currentSeries = getLessonSeries(lesson);
+    if (!currentSeries) return null;
+    const series = getSeriesList();
+    const index = series.findIndex(function (item) {
+      return item.id === currentSeries.id;
+    });
+    if (index < 0) return null;
+
+    for (let nextIndex = index + 1; nextIndex < series.length; nextIndex += 1) {
+      const nextSeries = series[nextIndex];
+      const nextLesson = getFirstReadyLesson(nextSeries);
+      if (nextLesson) {
+        return {
+          series: nextSeries,
+          lesson: nextLesson
+        };
+      }
+    }
+
+    return null;
+  }
+
+  function getFirstReadyLesson(series) {
+    return getDescendantLessons(series).find(isLessonReady) || null;
   }
 
   function getResumeLesson() {
