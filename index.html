@@ -8,17 +8,20 @@
       name="description"
       content="A free, expandable American Beach Volleyball Club training course with local progress tracking."
     >
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230759aa'/%3E%3Cpath d='M11 42c12-8 25-9 39-3v14H11z' fill='%2322a7f2'/%3E%3Ccircle cx='43' cy='19' r='9' fill='%23ffffff'/%3E%3Cpath d='M18 33h28M32 24v23' stroke='%23fff' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+    <link rel="icon" type="image/png" href="assets/abvc-logo.png">
+    <link rel="apple-touch-icon" href="assets/abvc-logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=22">
+    <link rel="stylesheet" href="styles.css?v=23">
   </head>
   <body>
     <div class="app-shell" id="appShell">
       <aside class="course-sidebar" id="courseSidebar" aria-label="Course navigation">
         <div class="brand-lockup">
-          <img class="brand-logo" src="assets/abvc-logo.png" alt="American Beach Volleyball Club logo">
+          <button class="brand-home-button" id="brandHomeButton" type="button" aria-label="Back to course home">
+            <img class="brand-logo" src="assets/abvc-logo.png" alt="American Beach Volleyball Club logo">
+          </button>
           <div class="brand-copy">
             <p class="eyebrow">American Beach Volleyball Club</p>
             <h1>Training Course</h1>
@@ -127,6 +130,6 @@
       <div class="tree-item"></div>
     </template>
 
-    <script src="app.js?v=22" defer></script>
+    <script src="app.js?v=23" defer></script>
   </body>
 </html>

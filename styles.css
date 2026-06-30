@@ -115,6 +115,27 @@ input {
   background: var(--panel);
 }
 
+.brand-home-button {
+  display: block;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
+}
+
+.brand-home-button:hover .brand-logo,
+.brand-home-button:focus-visible .brand-logo {
+  border-color: var(--line-strong);
+}
+
+.brand-home-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .brand-copy {
   min-width: 0;
 }
@@ -676,8 +697,10 @@ h3 {
 .skill-card {
   position: relative;
   display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
-  gap: 0.8rem;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0.72rem;
+  align-content: start;
   min-height: 6.5rem;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -700,8 +723,48 @@ h3 {
   box-shadow: var(--shadow);
 }
 
+.skill-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .skill-card[data-node-type="lesson"] {
   background: var(--panel);
+}
+
+.skill-card-icon {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-row: 1 / span 2;
+  place-items: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  color: var(--ink-strong);
+}
+
+.skill-card-icon::before {
+  content: "";
+  display: block;
+}
+
+.skill-card-icon[data-icon="module"]::before {
+  width: 0.72rem;
+  height: 0.72rem;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  box-shadow: 0.18rem 0.18rem 0 -0.04rem var(--panel), 0.18rem 0.18rem 0 0 currentColor;
+}
+
+.skill-card-icon[data-icon="lesson"]::before {
+  width: 0;
+  height: 0;
+  margin-left: 0.12rem;
+  border-top: 0.34rem solid transparent;
+  border-bottom: 0.34rem solid transparent;
+  border-left: 0.5rem solid currentColor;
 }
 
 .skill-card-eyebrow {
@@ -715,6 +778,7 @@ h3 {
 .skill-card-title {
   position: relative;
   z-index: 1;
+  grid-column: 2;
   max-width: 100%;
   color: var(--ink-strong);
   font-size: 0.98rem;
@@ -734,6 +798,7 @@ h3 {
 .skill-card-footer {
   position: relative;
   z-index: 1;
+  grid-column: 2;
   display: flex;
   justify-content: space-between;
   gap: 1rem;
@@ -741,6 +806,12 @@ h3 {
   color: var(--muted);
   font-size: 0.78rem;
   font-weight: 600;
+}
+
+.skill-card-action {
+  color: var(--ink-strong);
+  font-size: 0.72rem;
+  white-space: nowrap;
 }
 
 .hub-empty {
@@ -1453,8 +1524,25 @@ h3 {
   .skill-card {
     aspect-ratio: 1 / 0.86;
     min-height: 0;
-    gap: 0.45rem;
+    gap: 0.42rem 0.5rem;
     padding: 0.68rem;
+  }
+
+  .skill-card-icon {
+    width: 1.45rem;
+    height: 1.45rem;
+    border-radius: 7px;
+  }
+
+  .skill-card-icon[data-icon="module"]::before {
+    width: 0.58rem;
+    height: 0.58rem;
+  }
+
+  .skill-card-icon[data-icon="lesson"]::before {
+    border-top-width: 0.27rem;
+    border-bottom-width: 0.27rem;
+    border-left-width: 0.42rem;
   }
 
   .skill-card-title {
@@ -1465,6 +1553,11 @@ h3 {
   .skill-card-footer {
     font-size: 0.64rem;
     line-height: 1.1;
+    gap: 0.45rem;
+  }
+
+  .skill-card-action {
+    font-size: 0.62rem;
   }
 
   .player-panel {

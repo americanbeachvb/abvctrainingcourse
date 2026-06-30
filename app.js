@@ -29,6 +29,7 @@
   const els = {
     appShell: document.getElementById("appShell"),
     sidebar: document.getElementById("courseSidebar"),
+    brandHomeButton: document.getElementById("brandHomeButton"),
     sidebarToggle: document.getElementById("sidebarToggle"),
     mobileMenuButton: document.getElementById("mobileMenuButton"),
     sidebarBackdrop: document.getElementById("sidebarBackdrop"),
@@ -118,6 +119,10 @@
 
   function bindEvents() {
     els.mobileMenuButton.setAttribute("aria-expanded", "false");
+
+    els.brandHomeButton.addEventListener("click", function () {
+      goHome();
+    });
 
     els.sidebarToggle.addEventListener("click", function () {
       if (isMobileLayout()) {
@@ -434,23 +439,41 @@
   }
 
   function handleNodeClick(node) {
+    if ((node.children || []).length > 0) {
+      state.openIds.add(node.id);
+    }
+
+    enterCourseNode(node);
+    closeMobileSidebarAfterNavigation();
+    renderTree();
+  }
+
+  function enterCourseNode(node) {
+    if (!node) return;
     if (node.type === "lesson") {
       selectNode(node.id);
-      closeMobileSidebarAfterNavigation();
       return;
     }
 
-    if ((node.children || []).length > 0) {
-      if (state.openIds.has(node.id)) {
-        state.openIds.delete(node.id);
-      } else {
-        state.openIds.add(node.id);
+    if (!hasSubsections(node)) {
+      const lesson = getRecommendedLesson(node);
+      if (lesson) {
+        selectNode(lesson.id);
+        return;
       }
     }
 
     selectNode(node.id, { skipViewedUpdate: true });
+  }
+
+  function goHome() {
+    clearCompletionGate();
+    state.search = "";
+    els.search.value = "";
+    renderOverview();
+    render();
     closeMobileSidebarAfterNavigation();
-    renderTree();
+    scrollMobileContentToTop();
   }
 
   function goBack() {
@@ -534,13 +557,16 @@
     els.lessonStatus.textContent = lessons.length ? `${stats.ready}/${stats.total} ready` : "Coming soon";
     if ((module.children || []).some(function (child) { return child.type !== "lesson"; })) {
       renderSkillHub({
-        title: "Skills",
+        title: "Choose a Section",
         nodes: module.children || [],
         emptyText: "No videos have been added here yet."
       });
     } else {
-      els.skillHub.hidden = true;
-      els.skillHub.replaceChildren();
+      renderSkillHub({
+        title: "Lessons",
+        nodes: module.children || [],
+        emptyText: "No videos have been added here yet."
+      });
     }
     renderPlaylist({
       title: module.title,
@@ -935,8 +961,13 @@
       if (node.type !== "lesson") {
         state.openIds.add(node.id);
       }
-      selectNode(node.id);
+      enterCourseNode(node);
     });
+
+    const icon = document.createElement("span");
+    icon.className = "skill-card-icon";
+    icon.dataset.icon = node.type === "lesson" ? "lesson" : "module";
+    icon.setAttribute("aria-hidden", "true");
 
     const title = document.createElement("strong");
     title.className = "skill-card-title";
@@ -947,9 +978,13 @@
 
     const meta = document.createElement("span");
     meta.textContent = getSkillCardMeta(node);
-    footer.appendChild(meta);
 
-    card.append(title, footer);
+    const action = document.createElement("span");
+    action.className = "skill-card-action";
+    action.textContent = getSkillCardAction(node);
+
+    footer.append(meta, action);
+    card.append(icon, title, footer);
     return card;
   }
 
@@ -958,9 +993,34 @@
       return isLessonReady(node) ? "Ready" : "Coming Soon";
     }
 
+    if (hasSubsections(node)) {
+      const sections = (node.children || []).filter(function (child) {
+        return child.type !== "lesson";
+      }).length;
+      return `${sections} section${sections === 1 ? "" : "s"}`;
+    }
+
     const lessons = getDescendantLessons(node);
     const stats = getReadyStats(lessons);
     return `${stats.ready}/${stats.total} ready`;
+  }
+
+  function getSkillCardAction(node) {
+    if (node.type === "lesson") {
+      if (!isLessonReady(node)) return "Soon";
+      return state.progress.completed.includes(node.id) ? "Review" : "Watch";
+    }
+
+    if (hasSubsections(node)) return "Open";
+
+    const readyLessons = getDescendantLessons(node).filter(isLessonReady);
+    const completed = readyLessons.filter(function (lesson) {
+      return state.progress.completed.includes(lesson.id);
+    }).length;
+    if (readyLessons.length === 0) return "Preview";
+    if (completed === 0) return "Start";
+    if (completed < readyLessons.length) return "Continue";
+    return "Review";
   }
 
   function renderVideo(lesson) {
@@ -1287,6 +1347,26 @@
     return (node.children || []).flatMap(function (child) {
       return getDescendantLessons(child);
     });
+  }
+
+  function hasSubsections(node) {
+    return Boolean(
+      node &&
+      node.type !== "lesson" &&
+      (node.children || []).some(function (child) {
+        return child.type !== "lesson";
+      })
+    );
+  }
+
+  function getRecommendedLesson(node) {
+    const lessons = getDescendantLessons(node);
+    const readyLessons = lessons.filter(isLessonReady);
+    const nextReady = readyLessons.find(function (lesson) {
+      return !state.progress.completed.includes(lesson.id);
+    });
+
+    return nextReady || readyLessons[0] || lessons[0] || null;
   }
 
   function getLessonScope(lesson) {
