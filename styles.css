@@ -23,6 +23,7 @@
   --shadow: 0 8px 18px #000000;
   --sidebar-width: 16.25rem;
   --sidebar-collapsed-width: 4.5rem;
+  --playlist-collapsed-width: 3.4rem;
   --playlist-width: clamp(21.25rem, 24vw, 26.25rem);
   font-family: Montserrat, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -77,8 +78,17 @@ input {
   grid-template-columns: var(--sidebar-width) minmax(0, 1fr) var(--playlist-width);
 }
 
+.app-shell.has-playlist.is-playlist-collapsed {
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr) var(--playlist-collapsed-width);
+}
+
 .app-shell.is-sidebar-collapsed {
   --sidebar-width: var(--sidebar-collapsed-width);
+}
+
+.app-shell.is-resizing-playlist {
+  cursor: col-resize;
+  user-select: none;
 }
 
 .course-sidebar {
@@ -880,10 +890,48 @@ h3 {
   border-left: 1px solid var(--line);
   background: var(--panel);
   padding: 0.9rem;
+  padding-left: 1rem;
 }
 
 .playlist-panel[hidden] {
   display: none !important;
+}
+
+.playlist-resize-handle {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  bottom: 0;
+  left: -0.35rem;
+  width: 0.7rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.playlist-resize-handle::before {
+  content: "";
+  position: absolute;
+  top: 0.9rem;
+  bottom: 0.9rem;
+  left: 50%;
+  width: 2px;
+  border-radius: 999px;
+  background: transparent;
+  transform: translateX(-50%);
+}
+
+.playlist-resize-handle:hover::before,
+.playlist-resize-handle:focus-visible::before,
+.app-shell.is-resizing-playlist .playlist-resize-handle::before {
+  background: var(--accent);
+}
+
+.playlist-resize-handle:focus-visible {
+  outline: 0;
 }
 
 .playlist-panel::-webkit-scrollbar {
@@ -944,7 +992,17 @@ h3 {
 }
 
 .playlist-toggle {
-  display: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.9rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--gray-button);
+  color: var(--ink);
+  padding: 0.28rem 0.55rem;
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 650;
 }
 
 .playlist-summary {
@@ -1029,6 +1087,46 @@ h3 {
 
 .playlist-row.is-complete .playlist-row-status {
   color: var(--ink);
+}
+
+@media (min-width: 921px) {
+  .app-shell.is-playlist-collapsed .playlist-panel {
+    overflow: hidden;
+    padding: 0.8rem 0.45rem;
+  }
+
+  .app-shell.is-playlist-collapsed .playlist-resize-handle {
+    display: none;
+  }
+
+  .app-shell.is-playlist-collapsed .course-playlist {
+    height: 100%;
+    place-items: start center;
+  }
+
+  .app-shell.is-playlist-collapsed .playlist-header {
+    display: flex;
+    justify-content: center;
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .app-shell.is-playlist-collapsed .playlist-heading,
+  .app-shell.is-playlist-collapsed .playlist-count,
+  .app-shell.is-playlist-collapsed .playlist-summary,
+  .app-shell.is-playlist-collapsed .playlist-progress,
+  .app-shell.is-playlist-collapsed .playlist-list {
+    display: none;
+  }
+
+  .app-shell.is-playlist-collapsed .playlist-toggle {
+    min-width: 2.15rem;
+    min-height: 6.1rem;
+    border-radius: 999px;
+    padding: 0.5rem 0.28rem;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
 }
 
 .playlist-row.is-coming-soon .playlist-row-title,
@@ -1459,6 +1557,10 @@ h3 {
   }
 
   .playlist-panel {
+    display: none;
+  }
+
+  .playlist-resize-handle {
     display: none;
   }
 

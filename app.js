@@ -1,8 +1,12 @@
 (function () {
   const STORAGE_KEY = "abvcCourseProgress.v1";
   const THEME_KEY = "abvcCourseTheme.v1";
+  const PLAYLIST_WIDTH_KEY = "abvcPlaylistWidth.v1";
   const EMAIL_POPUP_KEY = "abvcEmailPopupShown.v2";
   const COMPLETION_GATE_SECONDS = 15;
+  const PLAYLIST_MIN_WIDTH = 288;
+  const PLAYLIST_MAX_WIDTH = 600;
+  const MAIN_MIN_WIDTH = 520;
   const MAILCHIMP_POPUP_SRC = "https://chimpstatic.com/mcjs-connected/js/users/8a5a40781b8eb0233e2a99b61/4158b259b9c6bb504e699e1d3.js";
 
   const state = {
@@ -49,6 +53,7 @@
     lessonStatus: document.getElementById("lessonStatus"),
     skillHub: document.getElementById("skillHub"),
     playlistPanel: document.getElementById("playlistPanel"),
+    playlistResizeHandle: document.getElementById("playlistResizeHandle"),
     coursePlaylist: document.getElementById("coursePlaylist"),
     playerPanel: document.querySelector(".player-panel"),
     mobileLessonProgress: document.getElementById("mobileLessonProgress"),
@@ -68,6 +73,7 @@
 
   async function init() {
     loadTheme();
+    loadPlaylistWidth();
     bindEvents();
     loadProgress();
 
@@ -126,6 +132,7 @@
     });
 
     window.addEventListener("popstate", applyRouteFromLocation);
+    window.addEventListener("resize", clampPlaylistWidthToViewport);
 
     els.sidebarToggle.addEventListener("click", function () {
       if (isMobileLayout()) {
@@ -142,6 +149,9 @@
     els.sidebarBackdrop.addEventListener("click", function () {
       closeMobileSidebar();
     });
+
+    els.playlistResizeHandle.addEventListener("pointerdown", startPlaylistResize);
+    els.playlistResizeHandle.addEventListener("dblclick", resetPlaylistWidth);
 
     els.backButton.addEventListener("click", function () {
       goBack();
@@ -254,6 +264,96 @@
   function closeMobileSidebar() {
     els.appShell.classList.remove("is-sidebar-open");
     els.mobileMenuButton.setAttribute("aria-expanded", "false");
+  }
+
+  function getSidebarWidth() {
+    return els.sidebar.getBoundingClientRect().width || 0;
+  }
+
+  function getMaxPlaylistWidth() {
+    const availableWidth = window.innerWidth - getSidebarWidth() - MAIN_MIN_WIDTH;
+    return Math.max(PLAYLIST_MIN_WIDTH, Math.min(PLAYLIST_MAX_WIDTH, availableWidth));
+  }
+
+  function clampPlaylistWidth(width) {
+    const maxWidth = getMaxPlaylistWidth();
+    return Math.min(Math.max(width, PLAYLIST_MIN_WIDTH), maxWidth);
+  }
+
+  function getCurrentPlaylistWidth() {
+    const value = window.getComputedStyle(document.documentElement).getPropertyValue("--playlist-width");
+    const parsed = Number.parseFloat(value);
+    if (Number.isFinite(parsed)) return parsed;
+    return Math.min(420, getMaxPlaylistWidth());
+  }
+
+  function setPlaylistWidth(width, options) {
+    const nextWidth = clampPlaylistWidth(width);
+    document.documentElement.style.setProperty("--playlist-width", `${Math.round(nextWidth)}px`);
+
+    if (!options || !options.skipSave) {
+      try {
+        window.localStorage.setItem(PLAYLIST_WIDTH_KEY, String(Math.round(nextWidth)));
+      } catch (error) {
+        return;
+      }
+    }
+  }
+
+  function loadPlaylistWidth() {
+    try {
+      const stored = Number.parseFloat(window.localStorage.getItem(PLAYLIST_WIDTH_KEY));
+      if (Number.isFinite(stored)) {
+        setPlaylistWidth(stored, { skipSave: true });
+      }
+    } catch (error) {
+      return;
+    }
+  }
+
+  function clampPlaylistWidthToViewport() {
+    if (isMobileLayout()) return;
+    setPlaylistWidth(getCurrentPlaylistWidth(), { skipSave: true });
+  }
+
+  function resetPlaylistWidth() {
+    setPlaylistWidth(Math.min(420, getMaxPlaylistWidth()));
+  }
+
+  function setPlaylistCollapsed(collapsed, toggle) {
+    els.appShell.classList.toggle("is-playlist-collapsed", collapsed);
+
+    if (toggle) {
+      toggle.textContent = collapsed ? "Expand" : "Collapse";
+      toggle.setAttribute("aria-expanded", String(!collapsed));
+    }
+  }
+
+  function startPlaylistResize(event) {
+    if (isMobileLayout() || els.appShell.classList.contains("is-playlist-collapsed")) return;
+
+    event.preventDefault();
+    els.appShell.classList.add("is-resizing-playlist");
+
+    const startX = event.clientX;
+    const startWidth = els.playlistPanel.getBoundingClientRect().width;
+
+    function handlePointerMove(moveEvent) {
+      const nextWidth = startWidth + startX - moveEvent.clientX;
+      setPlaylistWidth(nextWidth, { skipSave: true });
+    }
+
+    function handlePointerUp() {
+      els.appShell.classList.remove("is-resizing-playlist");
+      setPlaylistWidth(getCurrentPlaylistWidth());
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", handlePointerUp);
+      window.removeEventListener("pointercancel", handlePointerUp);
+    }
+
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", handlePointerUp);
+    window.addEventListener("pointercancel", handlePointerUp);
   }
 
   function closeMobileSidebarAfterNavigation() {
@@ -735,13 +835,22 @@
     const toggle = document.createElement("button");
     toggle.className = "playlist-toggle";
     toggle.type = "button";
-    toggle.textContent = "Hide";
-    toggle.setAttribute("aria-expanded", "true");
+    const desktopPlaylistCollapsed = !isMobileLayout() && els.appShell.classList.contains("is-playlist-collapsed");
+    toggle.textContent = isMobileLayout()
+      ? "Hide"
+      : (desktopPlaylistCollapsed ? "Expand" : "Collapse");
+    toggle.setAttribute("aria-expanded", String(!desktopPlaylistCollapsed));
     toggle.addEventListener("click", function () {
-      const collapsed = !els.coursePlaylist.classList.contains("is-collapsed");
-      els.coursePlaylist.classList.toggle("is-collapsed", collapsed);
-      toggle.textContent = collapsed ? "Show" : "Hide";
-      toggle.setAttribute("aria-expanded", String(!collapsed));
+      if (isMobileLayout()) {
+        const collapsed = !els.coursePlaylist.classList.contains("is-collapsed");
+        els.coursePlaylist.classList.toggle("is-collapsed", collapsed);
+        toggle.textContent = collapsed ? "Show" : "Hide";
+        toggle.setAttribute("aria-expanded", String(!collapsed));
+        return;
+      }
+
+      const collapsed = !els.appShell.classList.contains("is-playlist-collapsed");
+      setPlaylistCollapsed(collapsed, toggle);
     });
 
     header.append(copy, count, toggle);
