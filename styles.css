@@ -369,7 +369,16 @@ h3 {
 }
 
 .mobile-lesson-progress {
-  display: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7rem;
+  margin: -0.12rem 0 0.75rem;
+  color: var(--muted);
+}
+
+.mobile-lesson-progress[hidden] {
+  display: none !important;
 }
 
 .mobile-module-panel {
@@ -1023,24 +1032,56 @@ h3 {
   overflow: hidden;
   margin-bottom: 0.75rem;
   background: #050505;
-  padding: clamp(0.55rem, 1.2vw, 0.9rem);
+  padding: clamp(0.7rem, 1.4vw, 1rem);
 }
 
 .video-shell {
   position: relative;
   display: grid;
   place-items: center;
-  width: min(100%, 64rem);
-  max-height: calc(100vh - 11rem);
-  min-height: 20rem;
+  width: min(100%, 28rem, 42vh);
+  max-height: none;
+  min-height: auto;
   overflow: hidden;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 9 / 16;
   border: 1px solid #222222;
   border-radius: 8px;
   background: #000000;
   background-position: center;
   background-size: cover;
   color: #fff;
+}
+
+.mobile-progress-label {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+}
+
+.mobile-progress-track {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  width: min(18rem, 34vw);
+}
+
+.mobile-progress-mark {
+  display: block;
+  flex: 1 1 0;
+  height: 0.24rem;
+  border-radius: 999px;
+  background: var(--line-strong);
+}
+
+.mobile-progress-mark[data-state="past"] {
+  background: #777777;
+}
+
+.mobile-progress-mark[data-state="current"] {
+  flex-grow: 1.8;
+  background: var(--accent);
 }
 
 .video-shell iframe {

@@ -828,7 +828,7 @@
 
     const label = document.createElement("span");
     label.className = "mobile-progress-label";
-    label.textContent = `${currentIndex + 1}/${total}`;
+    label.textContent = `Lesson ${currentIndex + 1}/${total}`;
 
     const track = document.createElement("div");
     track.className = "mobile-progress-track";
