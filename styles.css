@@ -1199,7 +1199,7 @@ h3 {
 
   .back-button {
     left: 0.85rem;
-    bottom: 0.85rem;
+    bottom: calc(1.15rem + env(safe-area-inset-bottom, 0px));
   }
 
   .lesson-header {
