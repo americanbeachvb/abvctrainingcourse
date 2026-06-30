@@ -1,6 +1,8 @@
 (function () {
   const STORAGE_KEY = "abvcCourseProgress.v1";
   const THEME_KEY = "abvcCourseTheme.v1";
+  const EMAIL_POPUP_KEY = "abvcEmailPopupShown.v1";
+  const MAILCHIMP_POPUP_SRC = "https://chimpstatic.com/mcjs-connected/js/users/8a5a40781b8eb0233e2a99b61/4158b259b9c6bb504e699e1d3.js";
 
   const state = {
     data: null,
@@ -68,8 +70,39 @@
       openFirstLevel();
       render();
       selectInitialContent();
+      loadEmailPopupOnce();
     } catch (error) {
       renderError(error);
+    }
+  }
+
+  function loadEmailPopupOnce() {
+    if (hasSeenEmailPopup()) return;
+    if (document.getElementById("mcjs")) return;
+
+    window.setTimeout(function () {
+      const script = document.createElement("script");
+      script.id = "mcjs";
+      script.async = true;
+      script.src = MAILCHIMP_POPUP_SRC;
+      script.addEventListener("load", markEmailPopupSeen);
+      document.head.appendChild(script);
+    }, 1200);
+  }
+
+  function hasSeenEmailPopup() {
+    try {
+      return window.localStorage.getItem(EMAIL_POPUP_KEY) === "true";
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function markEmailPopupSeen() {
+    try {
+      window.localStorage.setItem(EMAIL_POPUP_KEY, "true");
+    } catch (error) {
+      return;
     }
   }
 
