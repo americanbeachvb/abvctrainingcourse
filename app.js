@@ -394,7 +394,7 @@
     row.style.paddingLeft = `${0.6 + Math.min(depth, 4) * 0.2}rem`;
     row.dataset.open = String(state.openIds.has(node.id));
     row.setAttribute("aria-current", String(state.selectedId === node.id));
-    row.title = node.title;
+    row.title = getDisplayTitle(node);
     row.addEventListener("click", function () {
       handleNodeClick(node);
     });
@@ -414,7 +414,7 @@
 
     const title = document.createElement("span");
     title.className = "tree-title";
-    title.textContent = node.title;
+    title.textContent = getDisplayTitle(node);
     row.appendChild(title);
 
     const meta = document.createElement("span");
@@ -546,7 +546,8 @@
     renderSkillHub({
       title: "Choose Your Skill",
       nodes: state.data.course.modules || [],
-      showResume: true
+      showResume: true,
+      variant: "overview"
     });
     els.completeButton.disabled = true;
     els.nextButton.disabled = state.lessons.length === 0;
@@ -561,7 +562,7 @@
     const stats = getReadyStats(lessons);
 
     els.lessonPath.textContent = getPath(module.id);
-    els.lessonTitle.textContent = module.title;
+    els.lessonTitle.textContent = getDisplayTitle(module);
     els.lessonStatus.textContent = lessons.length ? `${stats.ready}/${stats.total} videos` : "Coming soon";
     if ((module.children || []).some(function (child) { return child.type !== "lesson"; })) {
       renderSkillHub({
@@ -591,7 +592,7 @@
     updateBackButton();
     hideLessonDescription();
     els.lessonPath.textContent = getPath(lesson.id);
-    els.lessonTitle.textContent = lesson.title;
+    els.lessonTitle.textContent = getDisplayTitle(lesson);
 
     renderVideo(lesson);
     refreshLessonChrome(lesson);
@@ -623,8 +624,8 @@
 
     const parent = state.parentsById.get(selected.id);
     els.backButton.textContent = "←";
-    els.backButton.setAttribute("aria-label", parent ? `Back to ${parent.title}` : "Back to Skills");
-    els.backButton.title = parent ? `Back to ${parent.title}` : "Back to Skills";
+    els.backButton.setAttribute("aria-label", parent ? `Back to ${getDisplayTitle(parent)}` : "Back to Skills");
+    els.backButton.title = parent ? `Back to ${getDisplayTitle(parent)}` : "Back to Skills";
   }
 
   function hidePlaylist() {
@@ -671,7 +672,7 @@
 
     const title = document.createElement("h3");
     title.className = "playlist-title";
-    title.textContent = options.title;
+    title.textContent = getDisplayTitle(options.title);
     copy.append(eyebrow, title);
 
     const count = document.createElement("span");
@@ -757,7 +758,7 @@
 
     const title = document.createElement("h3");
     title.className = "playlist-title";
-    title.textContent = options.title;
+    title.textContent = getDisplayTitle(options.title);
     copy.append(eyebrow, title);
 
     const count = document.createElement("span");
@@ -801,7 +802,7 @@
     upNextLabel.textContent = nextLesson ? "Up next" : "End of module";
     const upNextButton = document.createElement("button");
     upNextButton.type = "button";
-    upNextButton.textContent = nextLesson ? nextLesson.title : "Review this module";
+    upNextButton.textContent = nextLesson ? getDisplayTitle(nextLesson) : "Review this module";
     upNextButton.disabled = !nextLesson;
     if (nextLesson) {
       upNextButton.addEventListener("click", function () {
@@ -858,14 +859,28 @@
       track.appendChild(mark);
     }
 
-    els.mobileLessonProgress.append(label, track);
+    const videosButton = document.createElement("button");
+    videosButton.className = "mobile-video-list-button";
+    videosButton.type = "button";
+    videosButton.textContent = "Videos";
+    videosButton.addEventListener("click", scrollToMobilePlaylist);
+
+    els.mobileLessonProgress.append(label, track, videosButton);
+  }
+
+  function scrollToMobilePlaylist() {
+    if (els.mobileModulePanel.hidden) return;
+    els.mobileModulePanel.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
   }
 
   function createPlaylistRow(lesson, index, activeLessonId) {
     const row = document.createElement("button");
     row.type = "button";
     row.className = "playlist-row";
-    row.title = lesson.title;
+    row.title = getDisplayTitle(lesson);
     row.setAttribute("aria-current", String(lesson.id === activeLessonId));
 
     if (state.progress.completed.includes(lesson.id)) {
@@ -886,7 +901,7 @@
 
     const title = document.createElement("span");
     title.className = "playlist-row-title";
-    title.textContent = lesson.title;
+    title.textContent = getDisplayTitle(lesson);
 
     const status = document.createElement("span");
     status.className = "playlist-row-status";
@@ -898,6 +913,7 @@
 
   function renderSkillHub(options) {
     els.skillHub.replaceChildren();
+    els.skillHub.dataset.hub = options.variant || "section";
 
     const header = document.createElement("div");
     header.className = "hub-header";
@@ -915,7 +931,8 @@
         const resumeButton = document.createElement("button");
         resumeButton.type = "button";
         resumeButton.className = "button button-primary hub-resume";
-        resumeButton.textContent = `Resume ${resume.title}`;
+        resumeButton.textContent = "Resume";
+        resumeButton.title = `Resume ${getDisplayTitle(resume)}`;
         resumeButton.addEventListener("click", function () {
           selectNode(resume.id);
         });
@@ -983,7 +1000,7 @@
 
     const title = document.createElement("strong");
     title.className = "skill-card-title";
-    title.textContent = node.title;
+    title.textContent = getDisplayTitle(node);
 
     const footer = document.createElement("span");
     footer.className = "skill-card-footer";
@@ -991,11 +1008,7 @@
     const meta = document.createElement("span");
     meta.textContent = getSkillCardMeta(node);
 
-    const action = document.createElement("span");
-    action.className = "skill-card-action";
-    action.textContent = getSkillCardAction(node);
-
-    footer.append(meta, action);
+    footer.append(meta);
     card.append(icon, title, footer);
     return card;
   }
@@ -1035,6 +1048,14 @@
     return "Review";
   }
 
+  function getDisplayTitle(input) {
+    const rawTitle = typeof input === "string" ? input : (input && input.title) || "";
+    return rawTitle
+      .replace(/^(.+?)\s+\d+\s*-\s*/, "$1 - ")
+      .replace(/\s{2,}/g, " ")
+      .trim();
+  }
+
   function renderVideo(lesson) {
     if (!isLessonReady(lesson)) {
       setVideoPlaceholder(
@@ -1066,7 +1087,7 @@
     button.id = "videoMount";
     button.type = "button";
     button.className = "video-shell video-load-button";
-    button.setAttribute("aria-label", `Play ${lesson.title}`);
+    button.setAttribute("aria-label", `Play ${getDisplayTitle(lesson)}`);
     const thumbnail = getYouTubeThumbnail(lesson);
     if (thumbnail) {
       button.style.backgroundImage = `url("${thumbnail}")`;
@@ -1080,7 +1101,7 @@
       markViewed(lesson.id);
       const iframe = document.createElement("iframe");
       iframe.src = getYouTubeEmbedUrl(lesson);
-      iframe.title = lesson.title;
+      iframe.title = getDisplayTitle(lesson);
       iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
       iframe.allowFullscreen = true;
       iframe.referrerPolicy = "strict-origin-when-cross-origin";
@@ -1104,7 +1125,7 @@
     link.href = lesson.videoUrl || lesson.youtubeUrl;
     link.target = "_blank";
     link.rel = "noopener";
-    link.setAttribute("aria-label", `Open ${lesson.title} video`);
+    link.setAttribute("aria-label", `Open ${getDisplayTitle(lesson)} video`);
     link.innerHTML = '<span class="video-placeholder"><span class="play-badge" aria-hidden="true"></span><p>Open the linked video</p></span>';
     link.addEventListener("click", function () {
       markViewed(lesson.id);
@@ -1283,7 +1304,7 @@
     eyebrow.textContent = "Series complete";
 
     const title = document.createElement("h3");
-    title.textContent = `Next series: ${nextSeries.series.title}`;
+    title.textContent = `Next series: ${getDisplayTitle(nextSeries.series)}`;
 
     const note = document.createElement("span");
     note.textContent = "Keep the rhythm going.";
@@ -1551,7 +1572,7 @@
   function getPath(id) {
     const node = state.nodesById.get(id);
     return getAncestors(id).concat(node).map(function (item) {
-      return item.title;
+      return getDisplayTitle(item);
     }).join(" / ");
   }
 
