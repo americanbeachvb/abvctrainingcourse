@@ -51,6 +51,8 @@
     coursePlaylist: document.getElementById("coursePlaylist"),
     playerPanel: document.querySelector(".player-panel"),
     mobileLessonProgress: document.getElementById("mobileLessonProgress"),
+    mobileModulePanel: document.getElementById("mobileModulePanel"),
+    mobileCoursePlaylist: document.getElementById("mobileCoursePlaylist"),
     lessonActions: document.querySelector(".lesson-actions"),
     lessonDetails: document.querySelector(".lesson-details"),
     videoMount: document.getElementById("videoMount"),
@@ -568,6 +570,7 @@
     els.skillHub.hidden = isLesson;
     els.playerPanel.hidden = !isLesson;
     els.mobileLessonProgress.hidden = !isLesson;
+    els.mobileModulePanel.hidden = !isLesson;
     els.lessonActions.hidden = !isLesson;
     els.lessonDetails.hidden = true;
   }
@@ -593,6 +596,9 @@
     els.playlistPanel.hidden = true;
     els.coursePlaylist.hidden = true;
     els.coursePlaylist.replaceChildren();
+    els.mobileModulePanel.hidden = true;
+    els.mobileCoursePlaylist.hidden = true;
+    els.mobileCoursePlaylist.replaceChildren();
   }
 
   function renderPlaylist(options) {
@@ -674,6 +680,105 @@
     });
 
     els.coursePlaylist.append(header, summary, progress, list);
+    renderMobilePlaylist(options, {
+      readyLessons: readyLessons,
+      completed: completed,
+      percent: percent,
+      comingSoon: comingSoon
+    });
+  }
+
+  function renderMobilePlaylist(options, stats) {
+    const lessons = options.lessons || [];
+    if (!options.activeLessonId || !lessons.length) {
+      els.mobileModulePanel.hidden = true;
+      els.mobileCoursePlaylist.hidden = true;
+      els.mobileCoursePlaylist.replaceChildren();
+      return;
+    }
+
+    const currentIndex = lessons.findIndex(function (lesson) {
+      return lesson.id === options.activeLessonId;
+    });
+    const nextLesson = currentIndex >= 0 ? lessons[currentIndex + 1] : null;
+
+    els.mobileModulePanel.hidden = false;
+    els.mobileCoursePlaylist.hidden = false;
+    els.mobileCoursePlaylist.classList.remove("is-collapsed");
+    els.mobileCoursePlaylist.replaceChildren();
+
+    const header = document.createElement("div");
+    header.className = "playlist-header";
+
+    const copy = document.createElement("div");
+    copy.className = "playlist-heading";
+
+    const eyebrow = document.createElement("p");
+    eyebrow.className = "playlist-eyebrow";
+    eyebrow.textContent = "Current Module";
+
+    const title = document.createElement("h3");
+    title.className = "playlist-title";
+    title.textContent = options.title;
+    copy.append(eyebrow, title);
+
+    const count = document.createElement("span");
+    count.className = "playlist-count";
+    count.textContent = `${stats.completed}/${stats.readyLessons.length}`;
+
+    const toggle = document.createElement("button");
+    toggle.className = "playlist-toggle";
+    toggle.type = "button";
+    toggle.textContent = "Hide";
+    toggle.setAttribute("aria-expanded", "true");
+    toggle.addEventListener("click", function () {
+      const collapsed = !els.mobileCoursePlaylist.classList.contains("is-collapsed");
+      els.mobileCoursePlaylist.classList.toggle("is-collapsed", collapsed);
+      toggle.textContent = collapsed ? "Lessons" : "Hide";
+      toggle.setAttribute("aria-expanded", String(!collapsed));
+    });
+
+    header.append(copy, count, toggle);
+
+    const summary = document.createElement("div");
+    summary.className = "playlist-summary";
+
+    const lessonCount = document.createElement("span");
+    lessonCount.textContent = `${lessons.length} lessons`;
+
+    const soon = document.createElement("span");
+    soon.textContent = `${stats.comingSoon} coming soon`;
+    summary.append(lessonCount, soon);
+
+    const progress = document.createElement("div");
+    progress.className = "playlist-progress";
+    progress.setAttribute("aria-hidden", "true");
+    const fill = document.createElement("span");
+    fill.style.width = `${stats.percent}%`;
+    progress.appendChild(fill);
+
+    const upNext = document.createElement("div");
+    upNext.className = "mobile-up-next";
+    const upNextLabel = document.createElement("span");
+    upNextLabel.textContent = nextLesson ? "Up next" : "End of module";
+    const upNextButton = document.createElement("button");
+    upNextButton.type = "button";
+    upNextButton.textContent = nextLesson ? nextLesson.title : "Review this module";
+    upNextButton.disabled = !nextLesson;
+    if (nextLesson) {
+      upNextButton.addEventListener("click", function () {
+        selectNode(nextLesson.id);
+      });
+    }
+    upNext.append(upNextLabel, upNextButton);
+
+    const list = document.createElement("div");
+    list.className = "playlist-list";
+    lessons.forEach(function (lesson, index) {
+      list.appendChild(createPlaylistRow(lesson, index, options.activeLessonId));
+    });
+
+    els.mobileCoursePlaylist.append(header, summary, progress, upNext, list);
   }
 
   function renderMobileLessonProgress(lesson) {

@@ -351,6 +351,10 @@ h3 {
   display: none;
 }
 
+.mobile-module-panel {
+  display: none;
+}
+
 .button {
   min-height: 2.35rem;
   border: 1px solid transparent;
@@ -1222,12 +1226,7 @@ h3 {
   }
 
   .playlist-panel {
-    position: static;
-    height: auto;
-    overflow: visible;
-    border-top: 1px solid var(--line);
-    border-left: 0;
-    padding: 0.65rem;
+    display: none;
   }
 
   .playlist-panel[hidden] {
@@ -1273,6 +1272,80 @@ h3 {
     background: var(--accent);
   }
 
+  .mobile-module-panel {
+    display: block;
+    margin: 0 0 0.75rem;
+  }
+
+  .mobile-module-panel[hidden] {
+    display: none !important;
+  }
+
+  .mobile-course-playlist {
+    gap: 0.55rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--panel);
+    padding: 0.72rem;
+    box-shadow: var(--shadow);
+  }
+
+  .mobile-course-playlist .playlist-header {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 0.55rem;
+    align-items: center;
+    padding-bottom: 0.58rem;
+  }
+
+  .mobile-course-playlist .playlist-count {
+    padding: 0.28rem 0.44rem;
+    font-size: 0.68rem;
+  }
+
+  .mobile-up-next {
+    display: grid;
+    gap: 0.35rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--panel-soft);
+    padding: 0.58rem 0.65rem;
+  }
+
+  .mobile-up-next span {
+    color: var(--muted);
+    font-size: 0.62rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .mobile-up-next button {
+    border: 0;
+    background: transparent;
+    color: var(--ink-strong);
+    padding: 0;
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 650;
+    line-height: 1.28;
+  }
+
+  .mobile-up-next button:disabled {
+    cursor: default;
+    color: var(--muted);
+  }
+
+  .mobile-course-playlist .playlist-list {
+    max-height: 14rem;
+    overflow-y: auto;
+    padding-right: 0.1rem;
+  }
+
+  .mobile-course-playlist .playlist-row {
+    padding: 0.58rem 0.62rem;
+  }
+
   .playlist-toggle {
     display: inline-flex;
     align-items: center;
@@ -1289,6 +1362,7 @@ h3 {
 
   .course-playlist.is-collapsed .playlist-summary,
   .course-playlist.is-collapsed .playlist-progress,
+  .course-playlist.is-collapsed .mobile-up-next,
   .course-playlist.is-collapsed .playlist-list {
     display: none;
   }
@@ -1404,7 +1478,19 @@ h3 {
     aspect-ratio: 9 / 16;
   }
 
-  .lesson-actions .button,
+  .lesson-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lesson-actions .button {
+    width: auto;
+    min-height: 2.2rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    font-size: 0.78rem;
+  }
+
   .sidebar-actions .button {
     width: 100%;
   }
