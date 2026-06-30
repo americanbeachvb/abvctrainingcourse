@@ -347,6 +347,10 @@ h3 {
   gap: 0.55rem;
 }
 
+.mobile-lesson-progress {
+  display: none;
+}
+
 .button {
   min-height: 2.35rem;
   border: 1px solid transparent;
@@ -1221,6 +1225,45 @@ h3 {
     display: none !important;
   }
 
+  .mobile-lesson-progress {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: -0.1rem 0 0.65rem;
+    color: var(--muted);
+  }
+
+  .mobile-progress-label {
+    flex: 0 0 auto;
+    font-size: 0.68rem;
+    font-weight: 650;
+    letter-spacing: 0.04em;
+  }
+
+  .mobile-progress-track {
+    display: flex;
+    align-items: center;
+    gap: 0.22rem;
+    width: min(9.5rem, 44vw);
+  }
+
+  .mobile-progress-mark {
+    display: block;
+    flex: 1 1 0;
+    height: 0.22rem;
+    border-radius: 999px;
+    background: var(--line-strong);
+  }
+
+  .mobile-progress-mark[data-state="past"] {
+    background: #777777;
+  }
+
+  .mobile-progress-mark[data-state="current"] {
+    flex-grow: 1.8;
+    background: var(--accent);
+  }
+
   .playlist-toggle {
     display: inline-flex;
     align-items: center;
@@ -1310,8 +1353,35 @@ h3 {
     justify-self: start;
   }
 
+  .hub-header {
+    align-items: center;
+    padding: 0.7rem 0.78rem;
+  }
+
+  .hub-title {
+    font-size: 0.86rem;
+  }
+
   .skill-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.48rem;
+  }
+
+  .skill-card {
+    aspect-ratio: 1 / 0.86;
+    min-height: 0;
+    gap: 0.45rem;
+    padding: 0.68rem;
+  }
+
+  .skill-card-title {
+    font-size: 0.8rem;
+    line-height: 1.18;
+  }
+
+  .skill-card-footer {
+    font-size: 0.64rem;
+    line-height: 1.1;
   }
 
   .player-panel {

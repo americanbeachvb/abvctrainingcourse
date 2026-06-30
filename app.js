@@ -50,6 +50,7 @@
     playlistPanel: document.getElementById("playlistPanel"),
     coursePlaylist: document.getElementById("coursePlaylist"),
     playerPanel: document.querySelector(".player-panel"),
+    mobileLessonProgress: document.getElementById("mobileLessonProgress"),
     lessonActions: document.querySelector(".lesson-actions"),
     lessonDetails: document.querySelector(".lesson-details"),
     videoMount: document.getElementById("videoMount"),
@@ -558,6 +559,7 @@
 
     renderVideo(lesson);
     refreshLessonChrome(lesson);
+    renderMobileLessonProgress(lesson);
   }
 
   function setContentMode(mode) {
@@ -565,6 +567,7 @@
     els.appShell.dataset.mode = mode;
     els.skillHub.hidden = isLesson;
     els.playerPanel.hidden = !isLesson;
+    els.mobileLessonProgress.hidden = !isLesson;
     els.lessonActions.hidden = !isLesson;
     els.lessonDetails.hidden = true;
   }
@@ -671,6 +674,48 @@
     });
 
     els.coursePlaylist.append(header, summary, progress, list);
+  }
+
+  function renderMobileLessonProgress(lesson) {
+    els.mobileLessonProgress.replaceChildren();
+    if (!lesson || lesson.type !== "lesson") {
+      els.mobileLessonProgress.hidden = true;
+      return;
+    }
+
+    const scope = getLessonScope(lesson);
+    const currentIndex = scope.lessons.findIndex(function (item) {
+      return item.id === lesson.id;
+    });
+    const total = scope.lessons.length;
+    if (currentIndex < 0 || total <= 1) {
+      els.mobileLessonProgress.hidden = true;
+      return;
+    }
+
+    els.mobileLessonProgress.hidden = false;
+
+    const label = document.createElement("span");
+    label.className = "mobile-progress-label";
+    label.textContent = `${currentIndex + 1}/${total}`;
+
+    const track = document.createElement("div");
+    track.className = "mobile-progress-track";
+    const maxMarks = Math.min(total, 12);
+    const activeMark = Math.round((currentIndex / Math.max(total - 1, 1)) * (maxMarks - 1));
+
+    for (let index = 0; index < maxMarks; index += 1) {
+      const mark = document.createElement("span");
+      mark.className = "mobile-progress-mark";
+      if (index < activeMark) {
+        mark.dataset.state = "past";
+      } else if (index === activeMark) {
+        mark.dataset.state = "current";
+      }
+      track.appendChild(mark);
+    }
+
+    els.mobileLessonProgress.append(label, track);
   }
 
   function createPlaylistRow(lesson, index, activeLessonId) {
