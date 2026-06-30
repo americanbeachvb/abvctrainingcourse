@@ -534,7 +534,7 @@
     hidePlaylist();
     els.lessonPath.textContent = "American Beach Volleyball Club";
     els.lessonTitle.textContent = state.data.course.title;
-    els.lessonStatus.textContent = `${stats.ready}/${stats.total} available`;
+    els.lessonStatus.textContent = `${stats.ready}/${stats.total} videos`;
     renderSkillHub({
       title: "Choose Your Skill",
       nodes: state.data.course.modules || [],
@@ -554,7 +554,7 @@
 
     els.lessonPath.textContent = getPath(module.id);
     els.lessonTitle.textContent = module.title;
-    els.lessonStatus.textContent = lessons.length ? `${stats.ready}/${stats.total} available` : "Coming soon";
+    els.lessonStatus.textContent = lessons.length ? `${stats.ready}/${stats.total} videos` : "Coming soon";
     if ((module.children || []).some(function (child) { return child.type !== "lesson"; })) {
       renderSkillHub({
         title: "Choose a Section",
@@ -684,7 +684,7 @@
     summary.className = "playlist-summary";
 
     const ready = document.createElement("span");
-    ready.textContent = `${readyLessons.length} available`;
+    ready.textContent = `${readyLessons.length} videos`;
 
     const soon = document.createElement("span");
     soon.textContent = `${comingSoon} coming soon`;
@@ -1002,7 +1002,7 @@
 
     const lessons = getDescendantLessons(node);
     const stats = getReadyStats(lessons);
-    return `${stats.ready}/${stats.total} available`;
+    return `${stats.ready}/${stats.total} videos`;
   }
 
   function getSkillCardAction(node) {
