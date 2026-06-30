@@ -1,0 +1,108 @@
+{
+  "generatedAt": "2026-06-30T02:01:14.600Z",
+  "source": {
+    "lessonsFromExistingInventory": 230,
+    "validCorrectedUrlRows": 59,
+    "skippedCorrectedUrlRows": 1,
+    "correctedUrlRowsTotalIncludingSkipped": 60
+  },
+  "summary": {
+    "totalLessons": 230,
+    "totalReadyLessons": 59,
+    "totalComingSoonLessons": 171
+  },
+  "totalLessonsByFinalCategory": {
+    "Welcome to ABVC": 2,
+    "Strategy": 3,
+    "Setting": 18,
+    "Serving": 14,
+    "Passing": 29,
+    "On 2 Mindset / Attack on Two": 11,
+    "Jump Serve": 9,
+    "Hitting": 13,
+    "Game Like Training": 40,
+    "Float Serve": 9,
+    "Defense": 33,
+    "Culture": 20,
+    "Blocking": 9,
+    "Coaching": 6,
+    "Plyos": 13,
+    "Informal Lessons": 1
+  },
+  "readyLessonsByFinalCategory": {
+    "Welcome to ABVC": 0,
+    "Strategy": 0,
+    "Setting": 12,
+    "Serving": 0,
+    "Passing": 11,
+    "On 2 Mindset / Attack on Two": 2,
+    "Jump Serve": 1,
+    "Hitting": 5,
+    "Game Like Training": 0,
+    "Float Serve": 6,
+    "Defense": 17,
+    "Culture": 4,
+    "Blocking": 1,
+    "Coaching": 0,
+    "Plyos": 0,
+    "Informal Lessons": 0
+  },
+  "comingSoonLessonsByFinalCategory": {
+    "Welcome to ABVC": 2,
+    "Strategy": 3,
+    "Setting": 6,
+    "Serving": 14,
+    "Passing": 18,
+    "On 2 Mindset / Attack on Two": 9,
+    "Jump Serve": 8,
+    "Hitting": 8,
+    "Game Like Training": 40,
+    "Float Serve": 3,
+    "Defense": 16,
+    "Culture": 16,
+    "Blocking": 8,
+    "Coaching": 6,
+    "Plyos": 13,
+    "Informal Lessons": 1
+  },
+  "userFacingTopLevelCategories": [
+    "Welcome to ABVC",
+    "Strategy",
+    "Setting",
+    "Serving",
+    "Passing",
+    "On 2 Mindset / Attack on Two",
+    "Jump Serve",
+    "Hitting",
+    "Game Like Training",
+    "Float Serve",
+    "Defense",
+    "Culture",
+    "Blocking",
+    "Coaching",
+    "Plyos",
+    "Informal Lessons"
+  ],
+  "prohibitedUserFacingSections": [],
+  "unmatchedCorrectedUrlRows": [],
+  "skippedCorrectedUrlRows": [
+    {
+      "title": "Shorts",
+      "url": "https://www.youtube.com/shorts/",
+      "reason": "Skipped because the row has no YouTube video id."
+    }
+  ],
+  "oldPublishedRowsWithoutCorrectedUrl": [
+    {
+      "title": "Blocking 1 - Block and Pull Basics",
+      "category": "Blocking",
+      "subcategory": "Regular",
+      "sourceFolder": "Sorted Timelines > Blocking > Regular",
+      "oldPublishedTitle": "How to Block and Pull",
+      "oldMatchNotes": "manual, likely same topic"
+    }
+  ],
+  "duplicateTitles": [],
+  "duplicateCorrectedRows": [],
+  "exactDuplicateRowsDropped": []
+}

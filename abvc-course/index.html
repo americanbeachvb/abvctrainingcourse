@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ABVC Training Course</title>
+    <meta
+      name="description"
+      content="A free, expandable American Beach Volleyball Club training course with local progress tracking."
+    >
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230759aa'/%3E%3Cpath d='M11 42c12-8 25-9 39-3v14H11z' fill='%2322a7f2'/%3E%3Ccircle cx='43' cy='19' r='9' fill='%23ffffff'/%3E%3Cpath d='M18 33h28M32 24v23' stroke='%23fff' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=15">
+  </head>
+  <body>
+    <div class="app-shell" id="appShell">
+      <aside class="course-sidebar" id="courseSidebar" aria-label="Course navigation">
+        <div class="brand-lockup">
+          <img class="brand-logo" src="assets/abvc-logo.png" alt="American Beach Volleyball Club logo">
+          <div class="brand-copy">
+            <p class="eyebrow">American Beach Volleyball Club</p>
+            <h1>Training Course</h1>
+          </div>
+          <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="Collapse course navigation" aria-expanded="true">
+            <span aria-hidden="true">‹</span>
+          </button>
+        </div>
+
+        <div class="theme-row">
+          <span>Theme</span>
+          <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="true">
+            <span class="theme-toggle-track" aria-hidden="true">
+              <span class="theme-toggle-thumb"></span>
+            </span>
+            <span id="themeLabel">Dark</span>
+          </button>
+        </div>
+
+        <div class="progress-card" aria-live="polite">
+          <div class="progress-copy">
+            <span id="progressLabel">0% complete</span>
+            <span id="lessonCount">0 lessons</span>
+          </div>
+          <div class="progress-track" aria-hidden="true">
+            <span id="progressFill"></span>
+          </div>
+          <div class="sidebar-actions">
+            <button class="button button-secondary" id="resumeButton" type="button">Resume</button>
+            <button class="button button-ghost" id="resetProgressButton" type="button">Reset</button>
+          </div>
+        </div>
+
+        <label class="search-label" for="courseSearch">Search the course</label>
+        <input id="courseSearch" class="course-search" type="search" placeholder="Search lessons, drills, tags">
+
+        <nav id="courseTree" class="course-tree" aria-label="Course modules"></nav>
+      </aside>
+      <button class="sidebar-backdrop" id="sidebarBackdrop" type="button" aria-label="Close course navigation"></button>
+
+      <main class="lesson-main">
+        <button class="mobile-menu-button" id="mobileMenuButton" type="button">Course Menu</button>
+
+        <section class="lesson-hero" aria-labelledby="lessonTitle">
+          <div class="lesson-topline">
+            <button class="back-button" id="backButton" type="button" hidden>Back</button>
+            <div class="lesson-kicker" id="lessonPath">Course overview</div>
+          </div>
+          <div class="lesson-header">
+            <div>
+              <h2 id="lessonTitle">ABVC Training Course</h2>
+              <p id="lessonDescription" hidden></p>
+            </div>
+            <div class="lesson-status" id="lessonStatus">Ready</div>
+          </div>
+        </section>
+
+        <section class="player-panel" aria-label="Lesson video">
+          <div id="videoMount" class="video-shell">
+            <div class="video-placeholder">
+              <span class="play-badge" aria-hidden="true"></span>
+              <p>Select a lesson to load the player.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-actions" aria-label="Lesson actions">
+          <button class="button button-primary" id="completeButton" type="button" disabled>Complete Video</button>
+          <button class="button button-secondary" id="nextButton" type="button" disabled>Next Lesson</button>
+        </section>
+
+        <section class="skill-hub" id="skillHub" aria-label="Skill hub"></section>
+
+        <section class="lesson-details" aria-label="Lesson details">
+          <article>
+            <h3>Coaching Notes</h3>
+            <ul id="notesList" class="detail-list">
+              <li>Pick a lesson to see coaching notes.</li>
+            </ul>
+          </article>
+          <article>
+            <h3>Practice Drills</h3>
+            <ul id="drillsList" class="detail-list">
+              <li>Drills will appear here when they are added to the lesson data.</li>
+            </ul>
+          </article>
+        </section>
+      </main>
+
+      <aside class="playlist-panel" id="playlistPanel" aria-label="Current module playlist" hidden>
+        <section class="course-playlist" id="coursePlaylist" aria-label="Course playlist" hidden></section>
+      </aside>
+    </div>
+
+    <template id="treeItemTemplate">
+      <div class="tree-item"></div>
+    </template>
+
+    <script src="app.js?v=15" defer></script>
+  </body>
+</html>
