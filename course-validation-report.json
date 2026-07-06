@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-07-05T12:30:00.000Z",
+  "generatedAt": "2026-07-06T12:00:00.000Z",
   "note": "Welcome to ABVC, Informal Lessons, and Coaching are temporarily removed from the public course modules.",
   "summary": {
     "totalLessons": 221,
-    "totalReadyLessons": 73,
-    "totalComingSoonLessons": 148
+    "totalReadyLessons": 86,
+    "totalComingSoonLessons": 135
   },
   "totalLessonsByFinalCategory": {
     "Strategy": 3,
@@ -28,7 +28,8 @@
     "Hitting": 5,
     "Defense": 17,
     "Culture": 4,
-    "Blocking": 1
+    "Blocking": 1,
+    "Plyos": 13
   },
   "comingSoonLessonsByFinalCategory": {
     "Setting": 6,
@@ -39,8 +40,7 @@
     "Game Like Training": 40,
     "Defense": 16,
     "Culture": 16,
-    "Blocking": 8,
-    "Plyos": 13
+    "Blocking": 8
   },
   "userFacingTopLevelCategories": [
     "Strategy",
