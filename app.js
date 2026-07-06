@@ -6,6 +6,22 @@
   const PLAYLIST_MIN_WIDTH = 288;
   const PLAYLIST_MAX_WIDTH = 600;
   const MAIN_MIN_WIDTH = 520;
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  const SKILL_ICON_PATHS = {
+    strategy: '<rect x="20" y="14" width="24" height="36" rx="3"></rect><path d="M27 14v-4h10v4"></path><path d="M26 25h2.5l1.4-2.4 2.8 5 1.8-3.1H38"></path><path d="M26 36h2.5l1.4-2.4 2.8 5 1.8-3.1H38"></path><path d="M25 29h.1M38 32h.1M25 40h.1M38 43h.1"></path>',
+    setting: '<circle cx="32" cy="23" r="12"></circle><path d="M24 19c5 3 11 4 18 3"></path><path d="M29 12c-1 6 0 12 4 22"></path><path d="M40 15c-5 4-8 9-9 17"></path><path d="M19 34c-4 4-5 9-2 15"></path><path d="M22 36l5 13"></path><path d="M45 34c4 4 5 9 2 15"></path><path d="M42 36l-5 13"></path>',
+    serving: '<circle cx="35" cy="29" r="13"></circle><path d="M26 22c6 4 13 5 22 4"></path><path d="M34 16c-1 7 1 14 6 25"></path><path d="M46 20c-6 4-10 10-12 20"></path><path d="M13 23h7"></path><path d="M10 32h8"></path><path d="M17 42h8"></path>',
+    passing: '<circle cx="42" cy="18" r="8"></circle><path d="M38 12c3 4 7 6 12 7"></path><path d="M17 31l16 16"></path><path d="M24 26l16 16"></path><path d="M12 37l10-10"></path><path d="M35 50l10-10"></path><path d="M20 48l29-29"></path>',
+    target: '<circle cx="32" cy="32" r="19"></circle><circle cx="32" cy="32" r="5"></circle><path d="M32 7v14"></path><path d="M32 43v14"></path><path d="M7 32h14"></path><path d="M43 32h14"></path>',
+    hitting: '<circle cx="32" cy="14" r="5"></circle><path d="M31 20l-7 13 10 6 9-14"></path><path d="M42 11l7-6"></path><path d="M42 25l8-4"></path><path d="M26 34l-13 3"></path><path d="M33 39l-2 15"></path><path d="M27 50l-9 7"></path><path d="M36 45l10 7"></path>',
+    defense: '<path d="M32 9l18 7v13c0 12-7 21-18 26-11-5-18-14-18-26V16l18-7z"></path><path d="M32 16v31"></path><path d="M20 22v8c0 6 3 11 9 15"></path>',
+    blocking: '<path d="M18 49V25"></path><path d="M24 49V18"></path><path d="M30 49V15"></path><path d="M36 49V18"></path><path d="M42 49V25"></path><path d="M13 35c4 0 5 4 5 8"></path><path d="M47 35c-4 0-5 4-5 8"></path><path d="M22 55h20"></path>',
+    culture: '<circle cx="32" cy="20" r="7"></circle><circle cx="18" cy="25" r="6"></circle><circle cx="46" cy="25" r="6"></circle><path d="M21 50v-5c0-7 5-12 11-12s11 5 11 12v5"></path><path d="M8 50v-5c0-6 4-10 10-10"></path><path d="M56 50v-5c0-6-4-10-10-10"></path>',
+    cone: '<path d="M32 12l11 38H21l11-38z"></path><path d="M25 34h14"></path><path d="M19 50h26"></path><path d="M15 56h34"></path>',
+    plyos: '<circle cx="39" cy="12" r="5"></circle><path d="M35 19l-9 11 10 6 10-8"></path><path d="M26 30l-10 1"></path><path d="M36 36l-8 18"></path><path d="M28 54l-12 2"></path><path d="M39 39l11 13"></path><path d="M50 52l8-1"></path><path d="M46 28l8-2"></path>',
+    module: '<rect x="17" y="15" width="14" height="14" rx="3"></rect><rect x="33" y="15" width="14" height="14" rx="3"></rect><rect x="17" y="35" width="14" height="14" rx="3"></rect><rect x="33" y="35" width="14" height="14" rx="3"></rect>',
+    lesson: '<circle cx="32" cy="32" r="21"></circle><path d="M28 23l15 9-15 9V23z"></path>'
+  };
 
   const state = {
     data: null,
@@ -663,7 +679,7 @@
     hidePlaylist();
     els.lessonPath.textContent = "American Beach Volleyball Club";
     els.lessonTitle.textContent = state.data.course.title;
-    els.lessonStatus.textContent = `${stats.ready}/${stats.total} videos`;
+    els.lessonStatus.textContent = `${stats.ready}/${stats.total} lessons`;
     renderSkillHub({
       title: "Choose Your Skill",
       nodes: state.data.course.modules || [],
@@ -1080,7 +1096,7 @@
       grid.appendChild(empty);
     } else {
       nodes.forEach(function (node) {
-        grid.appendChild(createSkillCard(node));
+        grid.appendChild(createSkillCard(node, options.variant));
       });
     }
 
@@ -1110,11 +1126,13 @@
     hidePlaylist();
   }
 
-  function createSkillCard(node) {
+  function createSkillCard(node, variant) {
     const card = document.createElement("button");
     card.type = "button";
     card.className = "skill-card";
     card.dataset.nodeType = node.type;
+    card.dataset.cardVariant = variant || "section";
+    card.setAttribute("aria-label", getSkillCardAriaLabel(node));
     card.addEventListener("click", function () {
       if (node.type !== "lesson") {
         state.openIds.add(node.id);
@@ -1124,57 +1142,94 @@
 
     const icon = document.createElement("span");
     icon.className = "skill-card-icon";
-    icon.dataset.icon = node.type === "lesson" ? "lesson" : "module";
+    icon.dataset.icon = getSkillIconName(node);
     icon.setAttribute("aria-hidden", "true");
+    icon.appendChild(createSkillIcon(icon.dataset.icon));
 
     const title = document.createElement("strong");
     title.className = "skill-card-title";
-    title.textContent = getDisplayTitle(node);
+    title.textContent = getSkillCardTitle(node);
 
-    const footer = document.createElement("span");
-    footer.className = "skill-card-footer";
+    const count = document.createElement("span");
+    count.className = "skill-card-count";
+    count.textContent = getSkillCardMeta(node);
 
-    const meta = document.createElement("span");
-    meta.textContent = getSkillCardMeta(node);
+    const progress = document.createElement("span");
+    progress.className = "skill-card-progress";
+    progress.setAttribute("aria-hidden", "true");
 
-    footer.append(meta);
-    card.append(icon, title, footer);
+    const progressFill = document.createElement("span");
+    progressFill.style.width = `${getSkillCardProgress(node)}%`;
+    progress.appendChild(progressFill);
+
+    card.append(icon, title, count, progress);
     return card;
   }
 
   function getSkillCardMeta(node) {
     if (node.type === "lesson") {
-      return isLessonReady(node) ? "" : "Coming Soon";
-    }
-
-    if (hasSubsections(node)) {
-      const sections = (node.children || []).filter(function (child) {
-        return child.type !== "lesson";
-      }).length;
-      return `${sections} section${sections === 1 ? "" : "s"}`;
+      return isLessonReady(node) ? "1 lesson" : "Coming soon";
     }
 
     const lessons = getDescendantLessons(node);
-    const stats = getReadyStats(lessons);
-    return `${stats.ready}/${stats.total} videos`;
+    return lessons.length ? formatLessonCount(lessons.length) : "Coming soon";
   }
 
-  function getSkillCardAction(node) {
-    if (node.type === "lesson") {
-      if (!isLessonReady(node)) return "Soon";
-      return state.progress.completed.includes(node.id) ? "Review" : "Watch";
-    }
-
-    if (hasSubsections(node)) return "Open";
-
+  function getSkillCardProgress(node) {
     const readyLessons = getDescendantLessons(node).filter(isLessonReady);
     const completed = readyLessons.filter(function (lesson) {
       return state.progress.completed.includes(lesson.id);
     }).length;
-    if (readyLessons.length === 0) return "Preview";
-    if (completed === 0) return "Start";
-    if (completed < readyLessons.length) return "Continue";
-    return "Review";
+    return readyLessons.length ? Math.round((completed / readyLessons.length) * 100) : 0;
+  }
+
+  function getSkillCardAriaLabel(node) {
+    const readyLessons = getDescendantLessons(node).filter(isLessonReady);
+    const completed = readyLessons.filter(function (lesson) {
+      return state.progress.completed.includes(lesson.id);
+    }).length;
+    const progressText = readyLessons.length ? `${completed} of ${readyLessons.length} complete` : "no ready lessons";
+    return `Open ${getSkillCardTitle(node)}, ${getSkillCardMeta(node)}, ${progressText}`;
+  }
+
+  function formatLessonCount(count) {
+    return `${count} lesson${count === 1 ? "" : "s"}`;
+  }
+
+  function getSkillCardTitle(node) {
+    const title = getDisplayTitle(node);
+    if (node && node.id === "on-2-mindset-attack-on-two") {
+      return "Attack on Two";
+    }
+    return title;
+  }
+
+  function getSkillIconName(node) {
+    if (!node) return "module";
+    if (node.type === "lesson") return "lesson";
+
+    const title = getDisplayTitle(node).toLowerCase();
+    if (node.id === "strategy" || title.includes("strategy")) return "strategy";
+    if (node.id === "setting" || title.includes("setting")) return "setting";
+    if (node.id === "serving" || title.includes("serving")) return "serving";
+    if (node.id === "passing" || title.includes("passing")) return "passing";
+    if (node.id === "on-2-mindset-attack-on-two" || title.includes("attack on two")) return "target";
+    if (node.id === "hitting" || title.includes("hitting")) return "hitting";
+    if (node.id === "defense" || title.includes("defense")) return "defense";
+    if (node.id === "blocking" || title.includes("blocking")) return "blocking";
+    if (node.id === "culture" || title.includes("culture")) return "culture";
+    if (node.id === "game-like-training" || title.includes("game like")) return "cone";
+    if (node.id === "plyos" || title.includes("plyos")) return "plyos";
+    return "module";
+  }
+
+  function createSkillIcon(name) {
+    const svg = document.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("viewBox", "0 0 64 64");
+    svg.setAttribute("focusable", "false");
+    svg.setAttribute("aria-hidden", "true");
+    svg.innerHTML = SKILL_ICON_PATHS[name] || SKILL_ICON_PATHS.module;
+    return svg;
   }
 
   function getDisplayTitle(input) {
