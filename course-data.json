@@ -113,25 +113,24 @@
                 "title": "Setting - Basics of Beach Setting",
                 "description": "",
                 "sourceFolder": "Unedited Videos > Setting",
-                "youtubeUrl": null,
-                "status": "coming_soon",
-                "provider": "placeholder",
-                "videoId": "",
-                "videoUrl": "",
-                "thumbnail": "",
-                "duration": "TBD",
+                "youtubeUrl": "https://youtube.com/shorts/wan9rKeMBl8?feature=share",
+                "status": "ready",
+                "provider": "youtube",
+                "videoId": "wan9rKeMBl8",
+                "videoUrl": "https://youtube.com/shorts/wan9rKeMBl8?feature=share",
+                "thumbnail": "https://img.youtube.com/vi/wan9rKeMBl8/hqdefault.jpg",
+                "duration": "Short",
                 "notes": [],
                 "drills": [],
                 "tags": [
                   "Setting",
-                  "Setting General",
-                  "Coming Soon"
+                  "Setting General"
                 ],
                 "oldPublished": false,
                 "oldPublishedTitle": null,
                 "oldMatchNotes": null,
-                "correctedUrlTitle": null,
-                "correctedUrlMatchedOn": null
+                "correctedUrlTitle": "Setting - Basics of Beach Setting",
+                "correctedUrlMatchedOn": "Setting - Basics of Beach Setting"
               },
               {
                 "id": "setting-setting-general-setting-3-get-your-feet-to-the-ball",
