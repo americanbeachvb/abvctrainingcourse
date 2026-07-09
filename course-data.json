@@ -1300,24 +1300,23 @@
                 "title": "Jump Serve - Tosses",
                 "description": "",
                 "sourceFolder": "Unedited Videos > Jump Serve",
-                "youtubeUrl": null,
-                "status": "coming_soon",
-                "provider": "placeholder",
-                "videoId": "",
-                "videoUrl": "",
-                "thumbnail": "",
-                "duration": "TBD",
+                "youtubeUrl": "https://youtube.com/shorts/bRZQlEpjG1Y",
+                "status": "ready",
+                "provider": "youtube",
+                "videoId": "bRZQlEpjG1Y",
+                "videoUrl": "https://youtube.com/shorts/bRZQlEpjG1Y",
+                "thumbnail": "https://img.youtube.com/vi/bRZQlEpjG1Y/hqdefault.jpg",
+                "duration": "Short",
                 "notes": [],
                 "drills": [],
                 "tags": [
-                  "Jump Serve",
-                  "Coming Soon"
+                  "Jump Serve"
                 ],
                 "oldPublished": false,
                 "oldPublishedTitle": null,
                 "oldMatchNotes": null,
-                "correctedUrlTitle": null,
-                "correctedUrlMatchedOn": null
+                "correctedUrlTitle": "Jump Serve - Tosses",
+                "correctedUrlMatchedOn": "Jump Serve - Tosses"
               },
               {
                 "id": "jump-serve-main-jump-serve-load-on-your-hitting-leg",
@@ -2502,7 +2501,7 @@
             "type": "lesson",
             "category": "Hitting",
             "subcategory": null,
-            "title": "Hitting 1 - Summary",
+            "title": "Hitting - Summary",
             "description": "",
             "sourceFolder": "Sorted Timelines > Hitting",
             "youtubeUrl": "https://www.youtube.com/shorts/1NDpIqfW6R0",
@@ -2520,15 +2519,15 @@
             "oldPublished": true,
             "oldPublishedTitle": null,
             "oldMatchNotes": "published title not found in placeholder inventory",
-            "correctedUrlTitle": "Hitting 1 - Summary",
-            "correctedUrlMatchedOn": "Hitting 1 - Summary"
+            "correctedUrlTitle": "Hitting - Summary",
+            "correctedUrlMatchedOn": "Hitting - Summary"
           },
           {
             "id": "hitting-main-hitting-2-step-close-aggressively",
             "type": "lesson",
             "category": "Hitting",
             "subcategory": null,
-            "title": "Hitting 2 - Step Close Aggressively",
+            "title": "Hitting - Step Close Aggressively",
             "description": "",
             "sourceFolder": "Sorted Timelines > Hitting",
             "youtubeUrl": "https://www.youtube.com/shorts/ippJAkGJutw",
@@ -2546,15 +2545,15 @@
             "oldPublished": true,
             "oldPublishedTitle": null,
             "oldMatchNotes": "published title not found in placeholder inventory",
-            "correctedUrlTitle": "Hitting 2 - Step Close Aggressively",
-            "correctedUrlMatchedOn": "Hitting 2 - Step Close Aggressively"
+            "correctedUrlTitle": "Hitting - Step Close Aggressively",
+            "correctedUrlMatchedOn": "Hitting - Step Close Aggressively"
           },
           {
             "id": "hitting-main-hitting-3-hit-hard-keep-it-in",
             "type": "lesson",
             "category": "Hitting",
             "subcategory": null,
-            "title": "Hitting 3 - Hit Hard: Keep It In",
+            "title": "Hitting - Hit Hard: Keep It In",
             "description": "",
             "sourceFolder": "Sorted Timelines > Hitting",
             "youtubeUrl": "https://www.youtube.com/shorts/GBQYedcFS8g",
@@ -2572,15 +2571,15 @@
             "oldPublished": true,
             "oldPublishedTitle": null,
             "oldMatchNotes": "published title not found in placeholder inventory",
-            "correctedUrlTitle": "Hitting 3 - Hit Hard: Keep It In",
-            "correctedUrlMatchedOn": "Hitting 3 - Hit Hard: Keep It In"
+            "correctedUrlTitle": "Hitting - Hit Hard: Keep It In",
+            "correctedUrlMatchedOn": "Hitting - Hit Hard: Keep It In"
           },
           {
             "id": "hitting-main-hitting-4-hit-hard",
             "type": "lesson",
             "category": "Hitting",
             "subcategory": null,
-            "title": "Hitting 4 - Hit Hard",
+            "title": "Hitting - Hit Hard",
             "description": "",
             "sourceFolder": "Sorted Timelines > Hitting",
             "youtubeUrl": "https://www.youtube.com/shorts/KxGHDfm_KyQ",
@@ -2598,15 +2597,15 @@
             "oldPublished": true,
             "oldPublishedTitle": null,
             "oldMatchNotes": "published title not found in placeholder inventory",
-            "correctedUrlTitle": "Hitting 4 - Hit Hard",
-            "correctedUrlMatchedOn": "Hitting 4 - Hit Hard"
+            "correctedUrlTitle": "Hitting - Hit Hard",
+            "correctedUrlMatchedOn": "Hitting - Hit Hard"
           },
           {
             "id": "hitting-main-hitting-5-quick-and-high",
             "type": "lesson",
             "category": "Hitting",
             "subcategory": null,
-            "title": "Hitting 5 - Quick and High",
+            "title": "Hitting - Quick and High",
             "description": "",
             "sourceFolder": "Sorted Timelines > Hitting",
             "youtubeUrl": "https://www.youtube.com/shorts/d-RAM6Le-rk",
@@ -2624,8 +2623,8 @@
             "oldPublished": true,
             "oldPublishedTitle": null,
             "oldMatchNotes": "published title not found in placeholder inventory",
-            "correctedUrlTitle": "Hitting 5 - Quick and High",
-            "correctedUrlMatchedOn": "Hitting 5 - Quick and High"
+            "correctedUrlTitle": "Hitting - Quick and High",
+            "correctedUrlMatchedOn": "Hitting - Quick and High"
           },
           {
             "id": "hitting-main-hitting-step-close-all-the-time",
@@ -2662,24 +2661,23 @@
             "title": "Hitting - Pointer Finger to Target",
             "description": "",
             "sourceFolder": "Unedited Videos > Hitting",
-            "youtubeUrl": null,
-            "status": "coming_soon",
-            "provider": "placeholder",
-            "videoId": "",
-            "videoUrl": "",
-            "thumbnail": "",
-            "duration": "TBD",
+            "youtubeUrl": "https://www.youtube.com/shorts/deasFWvrY7Y",
+            "status": "ready",
+            "provider": "youtube",
+            "videoId": "deasFWvrY7Y",
+            "videoUrl": "https://www.youtube.com/shorts/deasFWvrY7Y",
+            "thumbnail": "https://img.youtube.com/vi/deasFWvrY7Y/hqdefault.jpg",
+            "duration": "Short",
             "notes": [],
             "drills": [],
             "tags": [
-              "Hitting",
-              "Coming Soon"
+              "Hitting"
             ],
             "oldPublished": false,
             "oldPublishedTitle": null,
             "oldMatchNotes": null,
-            "correctedUrlTitle": null,
-            "correctedUrlMatchedOn": null
+            "correctedUrlTitle": "Hitting - Pointer Finger to Target",
+            "correctedUrlMatchedOn": "Hitting - Pointer Finger to Target"
           },
           {
             "id": "hitting-main-hitting-no-free-balls",
@@ -2689,24 +2687,23 @@
             "title": "Hitting - No Free Balls",
             "description": "",
             "sourceFolder": "Unedited Videos > Hitting",
-            "youtubeUrl": null,
-            "status": "coming_soon",
-            "provider": "placeholder",
-            "videoId": "",
-            "videoUrl": "",
-            "thumbnail": "",
-            "duration": "TBD",
+            "youtubeUrl": "https://www.youtube.com/shorts/VuKrz_OiOtU",
+            "status": "ready",
+            "provider": "youtube",
+            "videoId": "VuKrz_OiOtU",
+            "videoUrl": "https://www.youtube.com/shorts/VuKrz_OiOtU",
+            "thumbnail": "https://img.youtube.com/vi/VuKrz_OiOtU/hqdefault.jpg",
+            "duration": "Short",
             "notes": [],
             "drills": [],
             "tags": [
-              "Hitting",
-              "Coming Soon"
+              "Hitting"
             ],
             "oldPublished": false,
             "oldPublishedTitle": null,
             "oldMatchNotes": null,
-            "correctedUrlTitle": null,
-            "correctedUrlMatchedOn": null
+            "correctedUrlTitle": "Hitting - No Free Balls",
+            "correctedUrlMatchedOn": "Hitting - No Free Balls"
           },
           {
             "id": "hitting-main-hitting-how-to-hit-hard",
@@ -2716,24 +2713,23 @@
             "title": "Hitting - How to Hit Hard",
             "description": "",
             "sourceFolder": "Unedited Videos > Hitting",
-            "youtubeUrl": null,
-            "status": "coming_soon",
-            "provider": "placeholder",
-            "videoId": "",
-            "videoUrl": "",
-            "thumbnail": "",
-            "duration": "TBD",
+            "youtubeUrl": "https://www.youtube.com/shorts/d1BKi2bO-w4",
+            "status": "ready",
+            "provider": "youtube",
+            "videoId": "d1BKi2bO-w4",
+            "videoUrl": "https://www.youtube.com/shorts/d1BKi2bO-w4",
+            "thumbnail": "https://img.youtube.com/vi/d1BKi2bO-w4/hqdefault.jpg",
+            "duration": "Short",
             "notes": [],
             "drills": [],
             "tags": [
-              "Hitting",
-              "Coming Soon"
+              "Hitting"
             ],
             "oldPublished": false,
             "oldPublishedTitle": null,
             "oldMatchNotes": null,
-            "correctedUrlTitle": null,
-            "correctedUrlMatchedOn": null
+            "correctedUrlTitle": "Hitting - How to Hit Hard",
+            "correctedUrlMatchedOn": "Hitting - How to Hit Hard"
           },
           {
             "id": "hitting-main-hitting-hitting-hard-summary",
@@ -2797,24 +2793,23 @@
             "title": "Hitting - Agressive Wins",
             "description": "",
             "sourceFolder": "Unedited Videos > Hitting",
-            "youtubeUrl": null,
-            "status": "coming_soon",
-            "provider": "placeholder",
-            "videoId": "",
-            "videoUrl": "",
-            "thumbnail": "",
-            "duration": "TBD",
+            "youtubeUrl": "https://www.youtube.com/shorts/vP0MKi3hDxw",
+            "status": "ready",
+            "provider": "youtube",
+            "videoId": "vP0MKi3hDxw",
+            "videoUrl": "https://www.youtube.com/shorts/vP0MKi3hDxw",
+            "thumbnail": "https://img.youtube.com/vi/vP0MKi3hDxw/hqdefault.jpg",
+            "duration": "Short",
             "notes": [],
             "drills": [],
             "tags": [
-              "Hitting",
-              "Coming Soon"
+              "Hitting"
             ],
             "oldPublished": false,
             "oldPublishedTitle": null,
             "oldMatchNotes": null,
-            "correctedUrlTitle": null,
-            "correctedUrlMatchedOn": null
+            "correctedUrlTitle": "Hitting - Agressive Wins",
+            "correctedUrlMatchedOn": "Hitting - Agressive Wins"
           },
           {
             "id": "hitting-main-hitting-rule-number-one-and-two",
