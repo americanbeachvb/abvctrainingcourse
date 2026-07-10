@@ -4029,7 +4029,7 @@
             "type": "lesson",
             "category": "Defense",
             "subcategory": null,
-            "title": "Defense 1 - Make A Decision",
+            "title": "Defense - Make A Decision",
             "description": "",
             "sourceFolder": "Sorted Timelines > Defense",
             "youtubeUrl": "https://www.youtube.com/shorts/N0m3t1zYJAw",
@@ -4047,8 +4047,8 @@
             "oldPublished": true,
             "oldPublishedTitle": "Defense 1- Make A Decision",
             "oldMatchNotes": "exact/normalized",
-            "correctedUrlTitle": "Defense 1- Make A Decision",
-            "correctedUrlMatchedOn": "Defense 1 - Make A Decision"
+            "correctedUrlTitle": "Defense - Make A Decision",
+            "correctedUrlMatchedOn": "Defense - Make A Decision"
           },
           {
             "id": "defense-main-defense-2-in-decision-feet-are-at-45-angle-from-net",
@@ -4610,24 +4610,23 @@
             "title": "Defense - Watch for the Tell",
             "description": "",
             "sourceFolder": "Unedited Videos > Defense",
-            "youtubeUrl": null,
-            "status": "coming_soon",
-            "provider": "placeholder",
-            "videoId": "",
-            "videoUrl": "",
-            "thumbnail": "",
-            "duration": "TBD",
+            "youtubeUrl": "https://www.youtube.com/shorts/2opHxXjdiM4",
+            "status": "ready",
+            "provider": "youtube",
+            "videoId": "2opHxXjdiM4",
+            "videoUrl": "https://www.youtube.com/shorts/2opHxXjdiM4",
+            "thumbnail": "https://img.youtube.com/vi/2opHxXjdiM4/hqdefault.jpg",
+            "duration": "Short",
             "notes": [],
             "drills": [],
             "tags": [
-              "Defense",
-              "Coming Soon"
+              "Defense"
             ],
             "oldPublished": false,
             "oldPublishedTitle": null,
             "oldMatchNotes": null,
-            "correctedUrlTitle": null,
-            "correctedUrlMatchedOn": null
+            "correctedUrlTitle": "Defense - Watch for the Tell",
+            "correctedUrlMatchedOn": "Defense - Watch for the Tell"
           },
           {
             "id": "defense-main-defense-wait-for-the-set",
@@ -4637,51 +4636,49 @@
             "title": "Defense - Wait for the Set",
             "description": "",
             "sourceFolder": "Unedited Videos > Defense",
-            "youtubeUrl": null,
-            "status": "coming_soon",
-            "provider": "placeholder",
-            "videoId": "",
-            "videoUrl": "",
-            "thumbnail": "",
-            "duration": "TBD",
+            "youtubeUrl": "https://www.youtube.com/shorts/ixHleqo4bC8",
+            "status": "ready",
+            "provider": "youtube",
+            "videoId": "ixHleqo4bC8",
+            "videoUrl": "https://www.youtube.com/shorts/ixHleqo4bC8",
+            "thumbnail": "https://img.youtube.com/vi/ixHleqo4bC8/hqdefault.jpg",
+            "duration": "Short",
             "notes": [],
             "drills": [],
             "tags": [
-              "Defense",
-              "Coming Soon"
+              "Defense"
             ],
             "oldPublished": false,
             "oldPublishedTitle": null,
             "oldMatchNotes": null,
-            "correctedUrlTitle": null,
-            "correctedUrlMatchedOn": null
+            "correctedUrlTitle": "Defense - Wait for the Set",
+            "correctedUrlMatchedOn": "Defense - Wait for the Set"
           },
           {
             "id": "defense-main-defense-wait-and-read-dont-guess-and-go",
             "type": "lesson",
             "category": "Defense",
             "subcategory": null,
-            "title": "Defense - Wait and Read, Dont Guess and Go",
+            "title": "Defense - Wait and Read, Don’t Guess and Go",
             "description": "",
             "sourceFolder": "Unedited Videos > Defense",
-            "youtubeUrl": null,
-            "status": "coming_soon",
-            "provider": "placeholder",
-            "videoId": "",
-            "videoUrl": "",
-            "thumbnail": "",
-            "duration": "TBD",
+            "youtubeUrl": "https://www.youtube.com/shorts/dFqdRlCxmj8",
+            "status": "ready",
+            "provider": "youtube",
+            "videoId": "dFqdRlCxmj8",
+            "videoUrl": "https://www.youtube.com/shorts/dFqdRlCxmj8",
+            "thumbnail": "https://img.youtube.com/vi/dFqdRlCxmj8/hqdefault.jpg",
+            "duration": "Short",
             "notes": [],
             "drills": [],
             "tags": [
-              "Defense",
-              "Coming Soon"
+              "Defense"
             ],
             "oldPublished": false,
             "oldPublishedTitle": null,
             "oldMatchNotes": null,
-            "correctedUrlTitle": null,
-            "correctedUrlMatchedOn": null
+            "correctedUrlTitle": "Defense - Wait and Read, Don’t Guess and Go",
+            "correctedUrlMatchedOn": "Defense - Wait and Read, Don’t Guess and Go"
           },
           {
             "id": "defense-main-defense-stay-on-your-feet",
@@ -4691,24 +4688,23 @@
             "title": "Defense - Stay on Your Feet",
             "description": "",
             "sourceFolder": "Unedited Videos > Defense",
-            "youtubeUrl": null,
-            "status": "coming_soon",
-            "provider": "placeholder",
-            "videoId": "",
-            "videoUrl": "",
-            "thumbnail": "",
-            "duration": "TBD",
+            "youtubeUrl": "https://www.youtube.com/shorts/FrP0qfWKO5c",
+            "status": "ready",
+            "provider": "youtube",
+            "videoId": "FrP0qfWKO5c",
+            "videoUrl": "https://www.youtube.com/shorts/FrP0qfWKO5c",
+            "thumbnail": "https://img.youtube.com/vi/FrP0qfWKO5c/hqdefault.jpg",
+            "duration": "Short",
             "notes": [],
             "drills": [],
             "tags": [
-              "Defense",
-              "Coming Soon"
+              "Defense"
             ],
             "oldPublished": false,
             "oldPublishedTitle": null,
             "oldMatchNotes": null,
-            "correctedUrlTitle": null,
-            "correctedUrlMatchedOn": null
+            "correctedUrlTitle": "Defense - Stay on Your Feet",
+            "correctedUrlMatchedOn": "Defense - Stay on Your Feet"
           },
           {
             "id": "defense-main-defense-split-the-court",
@@ -4745,24 +4741,23 @@
             "title": "Defense - No Sword Fighting",
             "description": "",
             "sourceFolder": "Unedited Videos > Defense",
-            "youtubeUrl": null,
-            "status": "coming_soon",
-            "provider": "placeholder",
-            "videoId": "",
-            "videoUrl": "",
-            "thumbnail": "",
-            "duration": "TBD",
+            "youtubeUrl": "https://www.youtube.com/shorts/IV4gW4DlN88",
+            "status": "ready",
+            "provider": "youtube",
+            "videoId": "IV4gW4DlN88",
+            "videoUrl": "https://www.youtube.com/shorts/IV4gW4DlN88",
+            "thumbnail": "https://img.youtube.com/vi/IV4gW4DlN88/hqdefault.jpg",
+            "duration": "Short",
             "notes": [],
             "drills": [],
             "tags": [
-              "Defense",
-              "Coming Soon"
+              "Defense"
             ],
             "oldPublished": false,
             "oldPublishedTitle": null,
             "oldMatchNotes": null,
-            "correctedUrlTitle": null,
-            "correctedUrlMatchedOn": null
+            "correctedUrlTitle": "Defense - No Sword Fighting",
+            "correctedUrlMatchedOn": "Defense - No Sword Fighting"
           },
           {
             "id": "defense-main-defense-keep-your-shape",
@@ -4799,24 +4794,23 @@
             "title": "Defense - Go After Everything",
             "description": "",
             "sourceFolder": "Unedited Videos > Defense",
-            "youtubeUrl": null,
-            "status": "coming_soon",
-            "provider": "placeholder",
-            "videoId": "",
-            "videoUrl": "",
-            "thumbnail": "",
-            "duration": "TBD",
+            "youtubeUrl": "https://www.youtube.com/shorts/OAEmlD1fSH0",
+            "status": "ready",
+            "provider": "youtube",
+            "videoId": "OAEmlD1fSH0",
+            "videoUrl": "https://www.youtube.com/shorts/OAEmlD1fSH0",
+            "thumbnail": "https://img.youtube.com/vi/OAEmlD1fSH0/hqdefault.jpg",
+            "duration": "Short",
             "notes": [],
             "drills": [],
             "tags": [
-              "Defense",
-              "Coming Soon"
+              "Defense"
             ],
             "oldPublished": false,
             "oldPublishedTitle": null,
             "oldMatchNotes": null,
-            "correctedUrlTitle": null,
-            "correctedUrlMatchedOn": null
+            "correctedUrlTitle": "Defense - Go After Everything",
+            "correctedUrlMatchedOn": "Defense - Go After Everything"
           },
           {
             "id": "defense-main-defense-follow-the-ball",
@@ -4826,24 +4820,23 @@
             "title": "Defense - Follow the Ball",
             "description": "",
             "sourceFolder": "Unedited Videos > Defense",
-            "youtubeUrl": null,
-            "status": "coming_soon",
-            "provider": "placeholder",
-            "videoId": "",
-            "videoUrl": "",
-            "thumbnail": "",
-            "duration": "TBD",
+            "youtubeUrl": "https://www.youtube.com/shorts/WBShEPCbVJk",
+            "status": "ready",
+            "provider": "youtube",
+            "videoId": "WBShEPCbVJk",
+            "videoUrl": "https://www.youtube.com/shorts/WBShEPCbVJk",
+            "thumbnail": "https://img.youtube.com/vi/WBShEPCbVJk/hqdefault.jpg",
+            "duration": "Short",
             "notes": [],
             "drills": [],
             "tags": [
-              "Defense",
-              "Coming Soon"
+              "Defense"
             ],
             "oldPublished": false,
             "oldPublishedTitle": null,
             "oldMatchNotes": null,
-            "correctedUrlTitle": null,
-            "correctedUrlMatchedOn": null
+            "correctedUrlTitle": "Defense - Follow the Ball",
+            "correctedUrlMatchedOn": "Defense - Follow the Ball"
           },
           {
             "id": "defense-main-defense-early-is-better-than-on-time",
@@ -4853,24 +4846,23 @@
             "title": "Defense - Early is Better Than On Time",
             "description": "",
             "sourceFolder": "Unedited Videos > Defense",
-            "youtubeUrl": null,
-            "status": "coming_soon",
-            "provider": "placeholder",
-            "videoId": "",
-            "videoUrl": "",
-            "thumbnail": "",
-            "duration": "TBD",
+            "youtubeUrl": "https://www.youtube.com/shorts/7VOozR7HIOU",
+            "status": "ready",
+            "provider": "youtube",
+            "videoId": "7VOozR7HIOU",
+            "videoUrl": "https://www.youtube.com/shorts/7VOozR7HIOU",
+            "thumbnail": "https://img.youtube.com/vi/7VOozR7HIOU/hqdefault.jpg",
+            "duration": "Short",
             "notes": [],
             "drills": [],
             "tags": [
-              "Defense",
-              "Coming Soon"
+              "Defense"
             ],
             "oldPublished": false,
             "oldPublishedTitle": null,
             "oldMatchNotes": null,
-            "correctedUrlTitle": null,
-            "correctedUrlMatchedOn": null
+            "correctedUrlTitle": "Defense - Early is Better Than On Time",
+            "correctedUrlMatchedOn": "Defense - Early is Better Than On Time"
           },
           {
             "id": "defense-main-reading-the-defense",
