@@ -3361,12 +3361,12 @@
             "title": "Speed Doubles - Jumpset or On Two",
             "description": "",
             "sourceFolder": "Sorted Timelines > Speed Doubles",
-            "youtubeUrl": "https://www.youtube.com/shorts/vGPDfaPKxmg",
+            "youtubeUrl": "https://youtube.com/shorts/nAaBNN9CFi0",
             "status": "ready",
             "provider": "youtube",
-            "videoId": "vGPDfaPKxmg",
-            "videoUrl": "https://www.youtube.com/shorts/vGPDfaPKxmg",
-            "thumbnail": "https://img.youtube.com/vi/vGPDfaPKxmg/hqdefault.jpg",
+            "videoId": "nAaBNN9CFi0",
+            "videoUrl": "https://youtube.com/shorts/nAaBNN9CFi0",
+            "thumbnail": "https://img.youtube.com/vi/nAaBNN9CFi0/hqdefault.jpg",
             "duration": "Short",
             "notes": [],
             "drills": [],
@@ -3387,24 +3387,23 @@
             "title": "Speed Doubles - On Two",
             "description": "",
             "sourceFolder": "Sorted Timelines > Speed Doubles",
-            "youtubeUrl": null,
-            "status": "coming_soon",
-            "provider": "placeholder",
-            "videoId": "",
-            "videoUrl": "",
-            "thumbnail": "",
-            "duration": "TBD",
+            "youtubeUrl": "https://youtube.com/shorts/yOCVqzhkY60",
+            "status": "ready",
+            "provider": "youtube",
+            "videoId": "yOCVqzhkY60",
+            "videoUrl": "https://youtube.com/shorts/yOCVqzhkY60",
+            "thumbnail": "https://img.youtube.com/vi/yOCVqzhkY60/hqdefault.jpg",
+            "duration": "Short",
             "notes": [],
             "drills": [],
             "tags": [
-              "Speed Doubles",
-              "Coming Soon"
+              "Speed Doubles"
             ],
             "oldPublished": false,
             "oldPublishedTitle": null,
             "oldMatchNotes": null,
-            "correctedUrlTitle": null,
-            "correctedUrlMatchedOn": null
+            "correctedUrlTitle": "Speed Doubles - On Two",
+            "correctedUrlMatchedOn": "Speed Doubles - On Two"
           },
           {
             "id": "speed-doubles-main-speed-doubles-jump-serve-only",
@@ -3431,33 +3430,6 @@
             "oldMatchNotes": null,
             "correctedUrlTitle": "Speed Doubles - Jump Serve Only",
             "correctedUrlMatchedOn": "Speed Doubles - Jump Serve Only"
-          },
-          {
-            "id": "speed-doubles-main-speed-doubles-jumpserve",
-            "type": "lesson",
-            "category": "Speed Doubles",
-            "subcategory": null,
-            "title": "Speed Doubles - Jumpserve",
-            "description": "",
-            "sourceFolder": "Sorted Timelines > Speed Doubles",
-            "youtubeUrl": null,
-            "status": "coming_soon",
-            "provider": "placeholder",
-            "videoId": "",
-            "videoUrl": "",
-            "thumbnail": "",
-            "duration": "TBD",
-            "notes": [],
-            "drills": [],
-            "tags": [
-              "Speed Doubles",
-              "Coming Soon"
-            ],
-            "oldPublished": false,
-            "oldPublishedTitle": null,
-            "oldMatchNotes": null,
-            "correctedUrlTitle": null,
-            "correctedUrlMatchedOn": null
           },
           {
             "id": "speed-doubles-main-speed-doubles-two-touch",
@@ -3542,7 +3514,7 @@
             "type": "lesson",
             "category": "Speed Doubles",
             "subcategory": null,
-            "title": "Speed Doubles - Opposite Hand Attack",
+            "title": "Speed Doubles - Oppsite Hand Attack",
             "description": "",
             "sourceFolder": "Sorted Timelines > Speed Doubles",
             "youtubeUrl": "https://www.youtube.com/shorts/JZHJVyVdshM",
@@ -3560,8 +3532,8 @@
             "oldPublished": false,
             "oldPublishedTitle": null,
             "oldMatchNotes": null,
-            "correctedUrlTitle": "Speed Doubles - Opposite Hand Attack",
-            "correctedUrlMatchedOn": "Speed Doubles - Opposite Hand Attack"
+            "correctedUrlTitle": "Speed Doubles - Oppsite Hand Attack",
+            "correctedUrlMatchedOn": "Speed Doubles - Oppsite Hand Attack"
           },
           {
             "id": "speed-doubles-main-speed-doubles-no-jump",
@@ -3597,24 +3569,23 @@
             "title": "Speed Doubles - Mindset to Attack",
             "description": "",
             "sourceFolder": "Sorted Timelines > Speed Doubles",
-            "youtubeUrl": null,
-            "status": "coming_soon",
-            "provider": "placeholder",
-            "videoId": "",
-            "videoUrl": "",
-            "thumbnail": "",
-            "duration": "TBD",
+            "youtubeUrl": "https://youtube.com/shorts/l56U-wzCzIk",
+            "status": "ready",
+            "provider": "youtube",
+            "videoId": "l56U-wzCzIk",
+            "videoUrl": "https://youtube.com/shorts/l56U-wzCzIk",
+            "thumbnail": "https://img.youtube.com/vi/l56U-wzCzIk/hqdefault.jpg",
+            "duration": "Short",
             "notes": [],
             "drills": [],
             "tags": [
-              "Speed Doubles",
-              "Coming Soon"
+              "Speed Doubles"
             ],
             "oldPublished": false,
             "oldPublishedTitle": null,
             "oldMatchNotes": null,
-            "correctedUrlTitle": null,
-            "correctedUrlMatchedOn": null
+            "correctedUrlTitle": "Speed Doubles - Mindset to Attack",
+            "correctedUrlMatchedOn": "Speed Doubles - Mindset to Attack"
           },
           {
             "id": "speed-doubles-main-speed-doubles-hard-attack-only",
@@ -3699,7 +3670,7 @@
             "type": "lesson",
             "category": "Speed Doubles",
             "subcategory": null,
-            "title": "Speed Doubles - Back Set Only",
+            "title": "Speed Doubles - Backset Only",
             "description": "",
             "sourceFolder": "Sorted Timelines > Speed Doubles",
             "youtubeUrl": "https://www.youtube.com/shorts/AtiLTfXoN2M",
@@ -3717,8 +3688,8 @@
             "oldPublished": false,
             "oldPublishedTitle": null,
             "oldMatchNotes": null,
-            "correctedUrlTitle": "Speed Doubles - Back Set Only",
-            "correctedUrlMatchedOn": "Speed Doubles - Back Set Only"
+            "correctedUrlTitle": "Speed Doubles - Backset Only",
+            "correctedUrlMatchedOn": "Speed Doubles - Backset Only"
           }
         ],
         "category": "Speed Doubles",
