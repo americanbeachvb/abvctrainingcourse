@@ -82,6 +82,60 @@
   color: #3e6f91;
 }
 
+:root[data-theme="light"] .skill-card,
+:root[data-theme="light"] .skill-card[data-node-type="lesson"] {
+  border-color: #c6d4e1;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(31, 41, 51, 0.08);
+  color: var(--ink-strong);
+}
+
+:root[data-theme="light"] .skill-card[data-node-type="module"] {
+  border-color: #c6d4e1;
+}
+
+:root[data-theme="light"] .skill-card:hover {
+  border-color: var(--accent);
+  background: #f2f8fc;
+}
+
+:root[data-theme="light"] .skill-card-title {
+  color: var(--ink-strong);
+}
+
+:root[data-theme="light"] .skill-card-count {
+  color: var(--muted);
+}
+
+:root[data-theme="light"] .skill-card-progress {
+  background: #d7e1ea;
+}
+
+:root[data-theme="light"] .player-panel {
+  border-color: #c6d4e1;
+  background: #edf3f8;
+}
+
+:root[data-theme="light"] .video-shell {
+  border-color: #b9c8d6;
+  background: #dfe8f0;
+  color: var(--ink-strong);
+}
+
+:root[data-theme="light"] .video-shell iframe {
+  background: #dfe8f0;
+}
+
+:root[data-theme="light"] .video-load-button,
+:root[data-theme="light"] .video-load-button .video-placeholder {
+  border-color: #b9c8d6;
+  background-color: #edf3f8;
+}
+
+:root[data-theme="light"] .video-placeholder p {
+  color: var(--ink-strong);
+}
+
 * {
   box-sizing: border-box;
 }
