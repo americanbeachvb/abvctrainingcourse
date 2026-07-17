@@ -30,27 +30,56 @@
 
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg: #f4f4f4;
+  --bg: #f1f3f5;
   --panel: #ffffff;
-  --panel-soft: #eeeeee;
-  --ink: #1f1f1f;
-  --ink-strong: #050505;
-  --muted: #696969;
-  --line: #dddddd;
-  --line-strong: #c8c8c8;
-  --accent: #68A9D9;
+  --panel-soft: #e8edf2;
+  --ink: #1f2933;
+  --ink-strong: #111827;
+  --muted: #52606d;
+  --line: #cfd8e2;
+  --line-strong: #b9c5d1;
+  --accent: #3d99d4;
   --accent-ink: #ffffff;
-  --navy: #202020;
-  --gray-button: #eeeeee;
+  --navy: #1f2933;
+  --gray-button: #e8edf2;
   --input-bg: #ffffff;
-  --track-bg: #dddddd;
-  --hover-bg: #f6f6f6;
-  --active-bg: #f1f1f1;
-  --nested-bg: #f7f7f7;
-  --pill-bg: #eeeeee;
-  --scroll-track: #efefef;
-  --scroll-thumb: #bdbdbd;
-  --surface-lift: #e7e7e7;
+  --track-bg: #d7e0e8;
+  --hover-bg: #eaf3fa;
+  --active-bg: #dcecf8;
+  --nested-bg: #f4f7fa;
+  --pill-bg: #e5ebf1;
+  --scroll-track: #edf1f5;
+  --scroll-thumb: #9aa9b8;
+  --surface-lift: #e2e8ef;
+}
+
+:root[data-theme="light"] .course-sidebar,
+:root[data-theme="light"] .brand-lockup,
+:root[data-theme="light"] .theme-row,
+:root[data-theme="light"] .tree-row {
+  background: #f9fbfd;
+}
+
+:root[data-theme="light"] .progress-card {
+  background: #eaf0f5;
+}
+
+:root[data-theme="light"] .tree-row[data-node-type="lesson"] .tree-title {
+  color: #344250;
+  font-weight: 600;
+}
+
+:root[data-theme="light"] .tree-row[data-node-type="lesson"] .tree-meta,
+:root[data-theme="light"] .tree-row[data-node-type="lesson"] .tree-toggle {
+  color: #647384;
+}
+
+:root[data-theme="light"] .tree-toggle {
+  color: #536577;
+}
+
+:root[data-theme="light"] .tree-row.is-complete .tree-title::after {
+  color: #3e6f91;
 }
 
 * {
