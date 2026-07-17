@@ -2,9 +2,12 @@
   const STORAGE_KEY = "abvcCourseProgress.v1";
   const THEME_KEY = "abvcCourseTheme.v1";
   const PLAYLIST_WIDTH_KEY = "abvcPlaylistWidth.v1";
+  const SIDEBAR_WIDTH_KEY = "abvcSidebarWidth.v1";
   const COMPLETION_GATE_SECONDS = 15;
   const PLAYLIST_MIN_WIDTH = 288;
   const PLAYLIST_MAX_WIDTH = 600;
+  const SIDEBAR_MIN_WIDTH = 220;
+  const SIDEBAR_MAX_WIDTH = 480;
   const MAIN_MIN_WIDTH = 520;
   const SVG_NS = "http://www.w3.org/2000/svg";
   const SKILL_ICON_PATHS = {
@@ -47,6 +50,7 @@
   const els = {
     appShell: document.getElementById("appShell"),
     sidebar: document.getElementById("courseSidebar"),
+    sidebarResizeHandle: document.getElementById("sidebarResizeHandle"),
     brandHomeButton: document.getElementById("brandHomeButton"),
     sidebarToggle: document.getElementById("sidebarToggle"),
     mobileMenuButton: document.getElementById("mobileMenuButton"),
@@ -87,6 +91,7 @@
 
   async function init() {
     loadTheme();
+    loadSidebarWidth();
     loadPlaylistWidth();
     bindEvents();
     loadProgress();
@@ -115,7 +120,7 @@
     });
 
     window.addEventListener("popstate", applyRouteFromLocation);
-    window.addEventListener("resize", clampPlaylistWidthToViewport);
+    window.addEventListener("resize", clampPanelWidthsToViewport);
 
     els.sidebarToggle.addEventListener("click", function () {
       if (isMobileLayout()) {
@@ -134,7 +139,13 @@
     });
 
     els.playlistResizeHandle.addEventListener("pointerdown", startPlaylistResize);
+    els.playlistResizeHandle.addEventListener("mousedown", startPlaylistResize);
+    els.playlistResizeHandle.addEventListener("touchstart", startPlaylistResize, { passive: false });
     els.playlistResizeHandle.addEventListener("dblclick", resetPlaylistWidth);
+    els.sidebarResizeHandle.addEventListener("pointerdown", startSidebarResize);
+    els.sidebarResizeHandle.addEventListener("mousedown", startSidebarResize);
+    els.sidebarResizeHandle.addEventListener("touchstart", startSidebarResize, { passive: false });
+    els.sidebarResizeHandle.addEventListener("dblclick", resetSidebarWidth);
 
     els.backButton.addEventListener("click", function () {
       goBack();
@@ -253,6 +264,54 @@
     return els.sidebar.getBoundingClientRect().width || 0;
   }
 
+  function getMaxSidebarWidth() {
+    const playlistWidth = els.appShell.classList.contains("has-playlist")
+      ? els.playlistPanel.getBoundingClientRect().width
+      : 0;
+    const availableWidth = window.innerWidth - playlistWidth - MAIN_MIN_WIDTH;
+    return Math.max(SIDEBAR_MIN_WIDTH, Math.min(SIDEBAR_MAX_WIDTH, availableWidth));
+  }
+
+  function clampSidebarWidth(width) {
+    const maxWidth = getMaxSidebarWidth();
+    return Math.min(Math.max(width, SIDEBAR_MIN_WIDTH), maxWidth);
+  }
+
+  function getCurrentSidebarWidth() {
+    const value = document.documentElement.style.getPropertyValue("--sidebar-width");
+    const parsed = Number.parseFloat(value);
+    if (Number.isFinite(parsed)) return parsed;
+    return getSidebarWidth() || Math.min(260, getMaxSidebarWidth());
+  }
+
+  function setSidebarWidth(width, options) {
+    const nextWidth = clampSidebarWidth(width);
+    document.documentElement.style.setProperty("--sidebar-width", `${Math.round(nextWidth)}px`);
+
+    if (!options || !options.skipSave) {
+      try {
+        window.localStorage.setItem(SIDEBAR_WIDTH_KEY, String(Math.round(nextWidth)));
+      } catch (error) {
+        return;
+      }
+    }
+  }
+
+  function loadSidebarWidth() {
+    try {
+      const stored = Number.parseFloat(window.localStorage.getItem(SIDEBAR_WIDTH_KEY));
+      if (Number.isFinite(stored)) {
+        setSidebarWidth(stored, { skipSave: true });
+      }
+    } catch (error) {
+      return;
+    }
+  }
+
+  function resetSidebarWidth() {
+    setSidebarWidth(Math.min(260, getMaxSidebarWidth()));
+  }
+
   function getMaxPlaylistWidth() {
     const availableWidth = window.innerWidth - getSidebarWidth() - MAIN_MIN_WIDTH;
     return Math.max(PLAYLIST_MIN_WIDTH, Math.min(PLAYLIST_MAX_WIDTH, availableWidth));
@@ -294,8 +353,9 @@
     }
   }
 
-  function clampPlaylistWidthToViewport() {
+  function clampPanelWidthsToViewport() {
     if (isMobileLayout()) return;
+    setSidebarWidth(getCurrentSidebarWidth(), { skipSave: true });
     setPlaylistWidth(getCurrentPlaylistWidth(), { skipSave: true });
   }
 
@@ -313,30 +373,82 @@
   }
 
   function startPlaylistResize(event) {
-    if (isMobileLayout() || els.appShell.classList.contains("is-playlist-collapsed")) return;
+    startHorizontalResize(event, {
+      handle: els.playlistResizeHandle,
+      resizingClass: "is-resizing-playlist",
+      isDisabled: function () {
+        return els.appShell.classList.contains("is-playlist-collapsed");
+      },
+      getStartWidth: function () {
+        return els.playlistPanel.getBoundingClientRect().width;
+      },
+      getWidth: getCurrentPlaylistWidth,
+      setWidth: setPlaylistWidth,
+      getNextWidth: function (startWidth, startX, clientX) {
+        return startWidth + startX - clientX;
+      }
+    });
+  }
+
+  function startSidebarResize(event) {
+    startHorizontalResize(event, {
+      handle: els.sidebarResizeHandle,
+      resizingClass: "is-resizing-sidebar",
+      isDisabled: function () {
+        return els.appShell.classList.contains("is-sidebar-collapsed");
+      },
+      getStartWidth: getSidebarWidth,
+      getWidth: getCurrentSidebarWidth,
+      setWidth: setSidebarWidth,
+      getNextWidth: function (startWidth, startX, clientX) {
+        return startWidth + clientX - startX;
+      }
+    });
+  }
+
+  function startHorizontalResize(event, options) {
+    if (isMobileLayout() || options.isDisabled() || els.appShell.classList.contains(options.resizingClass)) return;
 
     event.preventDefault();
-    els.appShell.classList.add("is-resizing-playlist");
+    els.appShell.classList.add(options.resizingClass);
 
-    const startX = event.clientX;
-    const startWidth = els.playlistPanel.getBoundingClientRect().width;
+    const usesPointerEvents = typeof event.pointerId === "number";
+    const usesTouchEvents = !usesPointerEvents && Boolean(event.touches);
+    const moveEventName = usesPointerEvents ? "pointermove" : (usesTouchEvents ? "touchmove" : "mousemove");
+    const endEventName = usesPointerEvents ? "pointerup" : (usesTouchEvents ? "touchend" : "mouseup");
+    const cancelEventName = usesPointerEvents ? "pointercancel" : (usesTouchEvents ? "touchcancel" : null);
+    const eventTarget = usesPointerEvents ? options.handle : window;
+    const getClientX = function (interactionEvent) {
+      return usesTouchEvents ? interactionEvent.touches[0].clientX : interactionEvent.clientX;
+    };
+    if (usesPointerEvents) {
+      options.handle.setPointerCapture(event.pointerId);
+    }
+
+    const startX = getClientX(event);
+    const startWidth = options.getStartWidth();
+    let hasResized = false;
 
     function handlePointerMove(moveEvent) {
-      const nextWidth = startWidth + startX - moveEvent.clientX;
-      setPlaylistWidth(nextWidth, { skipSave: true });
+      if (usesTouchEvents) moveEvent.preventDefault();
+      hasResized = true;
+      options.setWidth(options.getNextWidth(startWidth, startX, getClientX(moveEvent)), { skipSave: true });
     }
 
-    function handlePointerUp() {
-      els.appShell.classList.remove("is-resizing-playlist");
-      setPlaylistWidth(getCurrentPlaylistWidth());
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("pointerup", handlePointerUp);
-      window.removeEventListener("pointercancel", handlePointerUp);
+    function handlePointerUp(upEvent) {
+      els.appShell.classList.remove(options.resizingClass);
+      if (hasResized) options.setWidth(options.getWidth());
+      if (usesPointerEvents && options.handle.hasPointerCapture(upEvent.pointerId)) {
+        options.handle.releasePointerCapture(upEvent.pointerId);
+      }
+      eventTarget.removeEventListener(moveEventName, handlePointerMove);
+      eventTarget.removeEventListener(endEventName, handlePointerUp);
+      if (cancelEventName) eventTarget.removeEventListener(cancelEventName, handlePointerUp);
     }
 
-    window.addEventListener("pointermove", handlePointerMove);
-    window.addEventListener("pointerup", handlePointerUp);
-    window.addEventListener("pointercancel", handlePointerUp);
+    eventTarget.addEventListener(moveEventName, handlePointerMove, usesTouchEvents ? { passive: false } : undefined);
+    eventTarget.addEventListener(endEventName, handlePointerUp);
+    if (cancelEventName) eventTarget.addEventListener(cancelEventName, handlePointerUp);
   }
 
   function closeMobileSidebarAfterNavigation() {
@@ -477,7 +589,12 @@
     row.dataset.nodeType = node.type;
     row.dataset.empty = String(node.type !== "lesson" && (node.children || []).length === 0);
     row.style.paddingLeft = `${0.6 + Math.min(depth, 4) * 0.2}rem`;
-    row.dataset.open = String(state.openIds.has(node.id));
+    const hasChildren = (node.children || []).length > 0;
+    const isOpen = state.openIds.has(node.id) || Boolean(state.search && hasChildren);
+    row.dataset.open = String(isOpen);
+    if (hasChildren) {
+      row.setAttribute("aria-expanded", String(isOpen));
+    }
     row.setAttribute("aria-current", String(state.selectedId === node.id));
     row.title = getDisplayTitle(node);
     row.addEventListener("click", function () {
@@ -494,7 +611,7 @@
 
     const toggle = document.createElement("span");
     toggle.className = "tree-toggle";
-    toggle.textContent = node.type === "lesson" || !(node.children || []).length ? "•" : "›";
+    toggle.textContent = node.type === "lesson" || !hasChildren ? "•" : "›";
     row.appendChild(toggle);
 
     const title = document.createElement("span");
@@ -532,8 +649,23 @@
   }
 
   function handleNodeClick(node) {
-    if ((node.children || []).length > 0) {
-      state.openIds.add(node.id);
+    const hasChildren = (node.children || []).length > 0;
+    if (hasChildren && !state.search) {
+      const isOpen = state.openIds.has(node.id);
+      if (isOpen) {
+        state.openIds.delete(node.id);
+      } else {
+        state.openIds.add(node.id);
+      }
+      renderTree();
+
+      // A closed category opens and shows its overview. An open one collapses
+      // in place, matching the direction shown by its arrow.
+      if (!isOpen) {
+        enterCourseNode(node);
+        closeMobileSidebarAfterNavigation();
+      }
+      return;
     }
 
     enterCourseNode(node);

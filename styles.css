@@ -91,6 +91,11 @@ input {
   user-select: none;
 }
 
+.app-shell.is-resizing-sidebar {
+  cursor: col-resize;
+  user-select: none;
+}
+
 .course-sidebar {
   position: sticky;
   top: 0;
@@ -100,6 +105,47 @@ input {
   border-right: 1px solid var(--line);
   background: var(--panel);
   padding: 0;
+}
+
+.sidebar-resize-handle {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  right: -0.75rem;
+  bottom: 0;
+  width: 1.5rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.sidebar-resize-handle::before {
+  content: "";
+  position: absolute;
+  top: 0.9rem;
+  bottom: 0.9rem;
+  left: 50%;
+  width: 3px;
+  border-radius: 999px;
+  background: var(--line-strong);
+  opacity: 0.5;
+  transform: translateX(-50%);
+  transition: background-color 160ms ease, opacity 160ms ease, width 160ms ease;
+}
+
+.sidebar-resize-handle:hover::before,
+.sidebar-resize-handle:focus-visible::before,
+.app-shell.is-resizing-sidebar .sidebar-resize-handle::before {
+  width: 4px;
+  background: var(--accent);
+  opacity: 1;
+}
+
+.sidebar-resize-handle:focus-visible {
+  outline: 0;
 }
 
 .course-sidebar::-webkit-scrollbar {
@@ -199,6 +245,10 @@ input {
   height: 1.8rem;
   margin-left: 0;
   transform: translateX(-50%) rotate(180deg);
+}
+
+.app-shell.is-sidebar-collapsed .sidebar-resize-handle {
+  display: none;
 }
 
 .app-shell.is-sidebar-collapsed .course-tree {
@@ -945,11 +995,11 @@ h3 {
 
 .playlist-resize-handle {
   position: absolute;
-  z-index: 2;
+  z-index: 3;
   top: 0;
   bottom: 0;
-  left: -0.35rem;
-  width: 0.7rem;
+  left: -0.75rem;
+  width: 1.5rem;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -964,16 +1014,20 @@ h3 {
   top: 0.9rem;
   bottom: 0.9rem;
   left: 50%;
-  width: 2px;
+  width: 3px;
   border-radius: 999px;
-  background: transparent;
+  background: var(--line-strong);
   transform: translateX(-50%);
+  opacity: 0.5;
+  transition: background-color 160ms ease, opacity 160ms ease, width 160ms ease;
 }
 
 .playlist-resize-handle:hover::before,
 .playlist-resize-handle:focus-visible::before,
 .app-shell.is-resizing-playlist .playlist-resize-handle::before {
   background: var(--accent);
+  width: 4px;
+  opacity: 1;
 }
 
 .playlist-resize-handle:focus-visible {
@@ -1604,6 +1658,10 @@ h3 {
   }
 
   .playlist-resize-handle {
+    display: none;
+  }
+
+  .sidebar-resize-handle {
     display: none;
   }
 

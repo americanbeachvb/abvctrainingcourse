@@ -1,0 +1,269 @@
+<!--
+  Paste everything in this file into a WordPress Custom HTML block
+  (or an Elementor HTML widget). The styles are scoped to .abvc-fall-2026.
+-->
+<style>
+  .abvc-fall-2026 {
+    --abvc-ink: #123a52;
+    --abvc-blue: #087db7;
+    --abvc-light-blue: #e8f6fc;
+    --abvc-muted: #536875;
+    --abvc-line: #d8e4ea;
+    --abvc-white: #ffffff;
+    color: var(--abvc-ink);
+    font-family: "Montserrat", Arial, sans-serif;
+    line-height: 1.5;
+    overflow: hidden;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .abvc-fall-2026 *, .abvc-fall-2026 *::before, .abvc-fall-2026 *::after { box-sizing: border-box; }
+  .abvc-fall-2026 a { text-decoration: none; }
+
+  .abvc-fall-hero {
+    position: relative;
+    display: flex !important;
+    flex-flow: row nowrap !important;
+    align-items: center;
+    max-width: 1120px;
+    margin: clamp(28px, 5vw, 62px) auto 0;
+    color: var(--abvc-ink);
+    background: var(--abvc-light-blue);
+  }
+  .abvc-fall-hero__content { display: flex !important; flex: 1 1 0; flex-direction: column; justify-content: center; min-width: 0; padding: clamp(38px, 6vw, 72px); }
+  .abvc-fall-hero-photo { display: block !important; flex: 0 1 47.5%; align-self: stretch; min-width: 0; min-height: 390px; margin: 0; overflow: hidden; }
+  .abvc-fall-hero-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+  .abvc-fall-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 0 18px;
+    padding: 0 0 8px;
+    border-bottom: 2px solid var(--abvc-blue);
+    color: var(--abvc-blue);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+
+  .abvc-fall-eyebrow::before { content: none; }
+  .abvc-fall-hero h1 {
+    max-width: 720px;
+    margin: 0;
+    color: var(--abvc-ink);
+    font-size: clamp(42px, 7vw, 82px);
+    font-weight: 700;
+    letter-spacing: -.045em;
+    line-height: .98;
+    text-shadow: none;
+  }
+
+  .abvc-fall-hero p {
+    max-width: 555px;
+    margin: 22px 0 0;
+    color: var(--abvc-muted);
+    font-size: clamp(17px, 2vw, 21px);
+    font-weight: 500;
+  }
+
+  .abvc-fall-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .abvc-fall-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 14px 23px;
+    border: 1px solid #000;
+    border-radius: 4px;
+    background: var(--abvc-blue);
+    box-shadow: none;
+    color: #fff !important;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .07em;
+    text-align: center;
+    text-transform: uppercase;
+    transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+  }
+  .abvc-fall-button:hover { background: #056b9e; border-color: #056b9e; box-shadow: none; color: #fff !important; transform: translateY(-1px); }
+  .abvc-fall-button--ghost { border-color: var(--abvc-ink); background: transparent; color: var(--abvc-ink) !important; }
+  .abvc-fall-button--ghost:hover { background: var(--abvc-ink); border-color: var(--abvc-ink); color: #fff !important; }
+
+  .abvc-fall-main { background: #fff; }
+  .abvc-fall-intro {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: clamp(52px, 7vw, 84px) 24px 34px;
+    text-align: center;
+  }
+  .abvc-fall-kicker { margin: 0 0 10px; color: var(--abvc-blue); font-size: 12px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+  .abvc-fall-intro h2 { margin: 0; color: var(--abvc-ink); font-size: clamp(31px, 4vw, 49px); font-weight: 800; letter-spacing: -.04em; line-height: 1.04; }
+  .abvc-fall-intro > p { max-width: 650px; margin: 18px auto 0; color: var(--abvc-muted); font-family: "Open Sans", Arial, sans-serif; font-size: 17px; }
+
+  .abvc-fall-cards {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 24px;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 12px 24px clamp(58px, 8vw, 92px);
+  }
+  .abvc-fall-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 485px;
+    padding: clamp(27px, 4vw, 42px);
+    border: 1px solid var(--abvc-line);
+    border-radius: 0;
+    background: #fff;
+    box-shadow: none;
+    overflow: hidden;
+  }
+  .abvc-fall-card::before, .abvc-fall-card--high::before { content: none; }
+  .abvc-fall-card__label { display: inline-flex; align-self: flex-start; margin: 0 0 16px; padding: 0 0 6px; border-bottom: 2px solid var(--abvc-blue); color: var(--abvc-blue); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .abvc-fall-card--high .abvc-fall-card__label { background: none; color: var(--abvc-blue); }
+  .abvc-fall-card h3 { margin: 0; color: var(--abvc-ink); font-size: clamp(29px, 3vw, 37px); font-weight: 600; letter-spacing: -.04em; line-height: 1.06; }
+  .abvc-fall-card h3 span { display: block; margin-top: 6px; color: var(--abvc-muted); font-size: 16px; font-weight: 500; letter-spacing: 0; }
+  .abvc-fall-detail-list { display: grid; gap: 13px; margin: 28px 0; padding: 0; list-style: none; }
+  .abvc-fall-detail-list li { display: grid; grid-template-columns: 18px 1fr; align-items: center; gap: 10px; color: #353535; font-family: "Open Sans", Arial, sans-serif; font-size: 15px; font-weight: 600; }
+  .abvc-fall-detail-list .abvc-fall-icon { color: var(--abvc-blue); font-size: 15px; }
+  .abvc-fall-card--high .abvc-fall-detail-list .abvc-fall-icon { background: none; color: var(--abvc-blue); }
+  .abvc-fall-pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: auto; padding: 19px 0; border-top: 1px solid var(--abvc-line); border-bottom: 1px solid var(--abvc-line); }
+  .abvc-fall-price { color: var(--abvc-muted); font-size: 11px; font-weight: 700; text-align: center; }
+  .abvc-fall-price strong { display: block; margin-bottom: 3px; color: var(--abvc-ink); font-size: 21px; font-weight: 800; letter-spacing: -.04em; }
+  .abvc-fall-note { margin: 19px 0 24px; color: var(--abvc-muted); font-family: "Open Sans", Arial, sans-serif; font-size: 14px; line-height: 1.55; }
+  .abvc-fall-card .abvc-fall-button { width: 100%; }
+
+  .abvc-fall-video-section { max-width: 1120px; margin: 0 auto; padding: 0 24px clamp(58px, 8vw, 92px); }
+  .abvc-fall-video-panel { display: grid !important; grid-template-columns: .9fr 1.1fr !important; align-items: center; background: var(--abvc-light-blue); }
+  .abvc-fall-video-copy { padding: clamp(30px, 5vw, 58px); }
+  .abvc-fall-video-copy h2 { margin: 0 0 14px; color: var(--abvc-ink); font-size: clamp(29px, 3.5vw, 43px); font-weight: 600; letter-spacing: -.04em; line-height: 1.08; }
+  .abvc-fall-video-copy p { margin: 0; color: var(--abvc-muted); font-family: "Open Sans", Arial, sans-serif; font-size: 16px; line-height: 1.65; }
+  .abvc-fall-video-frame { position: relative; min-height: 100%; aspect-ratio: 16 / 9; background: #0b496b; }
+  .abvc-fall-video-frame iframe { position: absolute; width: 100%; height: 100%; border: 0; }
+
+  .abvc-fall-information { border-top: 1px solid var(--abvc-line); background: #f8f8f8; color: var(--abvc-ink); }
+  .abvc-fall-information__inner { display: grid !important; grid-template-columns: 1.2fr .8fr !important; gap: clamp(30px, 7vw, 100px); max-width: 1120px; margin: 0 auto; padding: clamp(54px, 8vw, 88px) 24px; }
+  .abvc-fall-information h2 { margin: 0 0 18px; color: var(--abvc-ink); font-size: clamp(30px, 4vw, 43px); font-weight: 600; letter-spacing: -.04em; line-height: 1.06; }
+  .abvc-fall-information p { margin: 0; color: #353535; font-family: "Open Sans", Arial, sans-serif; font-size: 16px; line-height: 1.72; }
+  .abvc-fall-information strong { color: var(--abvc-ink); }
+  .abvc-fall-information a { color: var(--abvc-blue); font-weight: 700; }
+  .abvc-fall-perks { display: grid; gap: 14px; align-content: start; margin: 0; padding: 0; list-style: none; }
+  .abvc-fall-information__side { display: grid; gap: 18px; align-content: start; }
+  .abvc-fall-information__side img { display: block; width: 100%; height: auto; }
+  .abvc-fall-perks li { padding: 20px; border-left: 3px solid var(--abvc-blue); background: #fff; color: #353535; font-family: "Open Sans", Arial, sans-serif; font-size: 15px; line-height: 1.55; }
+  .abvc-fall-perks strong { display: block; margin-bottom: 4px; font-size: 16px; }
+  .abvc-fall-footer { padding: 29px 24px; background: #fff; color: #353535; font-family: "Open Sans", Arial, sans-serif; font-size: 14px; font-weight: 600; text-align: center; }
+  .abvc-fall-footer a { color: var(--abvc-blue); }
+
+  @media (max-width: 767px) {
+    .abvc-fall-hero { flex-direction: column !important; margin: 24px 0 0; }
+    .abvc-fall-hero__content { padding: 48px 23px; }
+    .abvc-fall-hero-photo { flex-basis: auto; align-self: auto; min-height: 0; }
+    .abvc-fall-hero-photo img { width: 100%; height: auto; }
+    .abvc-fall-hero__actions { display: grid; }
+    .abvc-fall-cards, .abvc-fall-information__inner, .abvc-fall-video-panel { grid-template-columns: 1fr !important; }
+    .abvc-fall-card { min-height: 0; }
+    .abvc-fall-information__inner { gap: 40px; }
+    .abvc-fall-information__side img { max-width: 420px; margin: 0 auto; }
+  }
+
+  @media (prefers-reduced-motion: reduce) { .abvc-fall-button { transition: none; } }
+</style>
+
+<section class="abvc-fall-2026" aria-label="American Beach Volleyball Club Fall 2026 registration">
+  <header class="abvc-fall-hero">
+    <div class="abvc-fall-hero__content">
+      <div class="abvc-fall-eyebrow">American Beach Volleyball Club</div>
+      <h1>Fall 2026 Registration</h1>
+      <p>American Beach Volleyball Club &bull; Doheny State Park Beach</p>
+      <div class="abvc-fall-hero__actions">
+        <a class="abvc-fall-button" href="#abvc-fall-programs">View Fall Programs</a>
+        <a class="abvc-fall-button abvc-fall-button--ghost" href="mailto:info@americanbeachvolleyballclub.com">Ask a Question</a>
+      </div>
+    </div>
+    <figure class="abvc-fall-hero-photo">
+      <img src="https://americanbeachvolleyballclub.com/wp-content/uploads/2025/07/DSC02007-2-768x512.jpg" alt="American Beach Volleyball Club athletes training on the beach">
+    </figure>
+  </header>
+
+  <main class="abvc-fall-main">
+    <div class="abvc-fall-intro" id="abvc-fall-programs">
+      <p class="abvc-fall-kicker">2026 Fall Session</p>
+      <h2>September 9 &ndash; November 2</h2>
+      <p>Choose the training group that fits your athlete. Both programs meet Monday, Wednesday, and Friday from 4:00 PM to 6:00 PM at Doheny State Park Beach.</p>
+    </div>
+
+    <div class="abvc-fall-cards">
+      <article class="abvc-fall-card">
+        <p class="abvc-fall-card__label">Juniors Program</p>
+        <h3>Juniors <span>Ages 12&ndash;15 + beginners</span></h3>
+        <ul class="abvc-fall-detail-list">
+          <li><span class="abvc-fall-icon" aria-hidden="true">◷</span><span>Monday, Wednesday &amp; Friday</span></li>
+          <li><span class="abvc-fall-icon" aria-hidden="true">◴</span><span>4:00 PM &ndash; 6:00 PM</span></li>
+          <li><span class="abvc-fall-icon" aria-hidden="true">⌖</span><span>Doheny State Park Beach</span></li>
+        </ul>
+        <div class="abvc-fall-pricing" aria-label="Session pricing">
+          <div class="abvc-fall-price"><strong>$395</strong>1 day</div>
+          <div class="abvc-fall-price"><strong>$595</strong>2 days</div>
+          <div class="abvc-fall-price"><strong>$750</strong>3 days</div>
+        </div>
+        <p class="abvc-fall-note">Pick one, two, or three days. Beginners get the most from training by signing up for at least two days.</p>
+        <a class="abvc-fall-button" href="https://go.teamsnap.com/forms/525518" target="_blank" rel="noopener noreferrer">Register Juniors</a>
+      </article>
+
+      <article class="abvc-fall-card abvc-fall-card--high">
+        <p class="abvc-fall-card__label">High School Program</p>
+        <h3>High School <span>Ages 14+</span></h3>
+        <ul class="abvc-fall-detail-list">
+          <li><span class="abvc-fall-icon" aria-hidden="true">◷</span><span>Monday, Wednesday &amp; Friday</span></li>
+          <li><span class="abvc-fall-icon" aria-hidden="true">◴</span><span>4:00 PM &ndash; 6:00 PM</span></li>
+          <li><span class="abvc-fall-icon" aria-hidden="true">⌖</span><span>Doheny State Park Beach</span></li>
+        </ul>
+        <div class="abvc-fall-pricing" aria-label="Session pricing">
+          <div class="abvc-fall-price"><strong>$395</strong>1 day</div>
+          <div class="abvc-fall-price"><strong>$595</strong>2 days</div>
+          <div class="abvc-fall-price"><strong>$750</strong>3 days</div>
+        </div>
+        <p class="abvc-fall-note">Pick one, two, or three days. Train with intention, improve your beach game, and enjoy the process.</p>
+        <a class="abvc-fall-button" href="https://go.teamsnap.com/forms/525525" target="_blank" rel="noopener noreferrer">Register High School</a>
+      </article>
+    </div>
+
+    <section class="abvc-fall-video-section" aria-labelledby="abvc-first-day-title">
+      <div class="abvc-fall-video-panel">
+        <div class="abvc-fall-video-copy">
+          <p class="abvc-fall-kicker">New to American Beach?</p>
+          <h2 id="abvc-first-day-title">Watch before your first day.</h2>
+          <p>This quick introduction covers the rules of American Beach Volleyball Club and what to bring to training, including water and other first-day essentials.</p>
+        </div>
+        <div class="abvc-fall-video-frame">
+          <iframe src="https://www.youtube-nocookie.com/embed/AtTMGUabkd4?rel=0&amp;modestbranding=1&amp;playsinline=1" title="American Beach Volleyball Club first-day introduction" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="abvc-fall-information" aria-label="Registration information">
+    <div class="abvc-fall-information__inner">
+      <div>
+        <p class="abvc-fall-kicker">Registration Information</p>
+        <h2>Come train with us.</h2>
+        <p><strong>New members:</strong> Skills, abilities, and attitudes must be evaluated and approved by ABVC. Athletes are placed in the group appropriate to their ability level, training attitude, and age, at the coaches&rsquo; discretion. Athletes may be moved as needed for the benefit of the individual and the group.</p>
+      </div>
+      <div class="abvc-fall-information__side">
+        <img src="https://americanbeachvolleyballclub.com/wp-content/uploads/2025/07/99842E57-59D6-4EDE-AF6D-3FE0793A4990_1_105_c.jpeg" alt="American Beach Volleyball Club athlete practicing at the beach" loading="lazy">
+        <ul class="abvc-fall-perks">
+          <li><strong>Sibling discount</strong>Receive 15% off for additional siblings registered for the same session. Email <a href="mailto:info@americanbeachvolleyballclub.com">info@americanbeachvolleyballclub.com</a> before or after paying.</li>
+          <li><strong>Need help?</strong>Email us or call <a href="tel:+19494850826">(949) 485-0826</a> for additional information. Please do not text.</li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+  <footer class="abvc-fall-footer">
+    Questions? Email <a href="mailto:info@americanbeachvolleyballclub.com">info@americanbeachvolleyballclub.com</a> or call <a href="tel:+19494850826">949-485-0826</a> &nbsp;•&nbsp; God bless!
+  </footer>
+</section>
