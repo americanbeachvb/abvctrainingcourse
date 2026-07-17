@@ -9,6 +9,8 @@
   const SIDEBAR_MIN_WIDTH = 220;
   const SIDEBAR_MAX_WIDTH = 480;
   const MAIN_MIN_WIDTH = 520;
+  const DAY_START_HOUR = 7;
+  const NIGHT_START_HOUR = 19;
   const SVG_NS = "http://www.w3.org/2000/svg";
   const SKILL_ICON_PATHS = {
     strategy: '<rect x="20" y="14" width="24" height="36" rx="3"></rect><path d="M27 14v-4h10v4"></path><path d="M26 25h2.5l1.4-2.4 2.8 5 1.8-3.1H38"></path><path d="M26 36h2.5l1.4-2.4 2.8 5 1.8-3.1H38"></path><path d="M25 29h.1M38 32h.1M25 40h.1M38 43h.1"></path>',
@@ -34,6 +36,8 @@
     openIds: new Set(),
     selectedId: null,
     search: "",
+    themePreference: "auto",
+    themeTimerId: null,
     progress: {
       viewed: [],
       completed: [],
@@ -153,6 +157,11 @@
 
     els.themeToggle.addEventListener("click", function () {
       const currentTheme = document.documentElement.dataset.theme || "dark";
+      state.themePreference = "manual";
+      if (state.themeTimerId) {
+        window.clearTimeout(state.themeTimerId);
+        state.themeTimerId = null;
+      }
       setTheme(currentTheme === "dark" ? "light" : "dark");
     });
 
@@ -216,17 +225,45 @@
   }
 
   function loadTheme() {
-    let theme = "dark";
+    let theme = getThemeForLocalTime();
     try {
       const stored = window.localStorage.getItem(THEME_KEY);
       if (stored === "light" || stored === "dark") {
         theme = stored;
+        state.themePreference = "manual";
       }
     } catch (error) {
-      theme = "dark";
+      state.themePreference = "auto";
     }
 
     setTheme(theme, { skipSave: true });
+    scheduleAutoThemeChange();
+  }
+
+  function getThemeForLocalTime() {
+    const localHour = new Date().getHours();
+    return localHour >= DAY_START_HOUR && localHour < NIGHT_START_HOUR ? "light" : "dark";
+  }
+
+  function scheduleAutoThemeChange() {
+    if (state.themePreference !== "auto") return;
+
+    const now = new Date();
+    const nextChange = new Date(now);
+    const localHour = now.getHours();
+    const nextHour = localHour < DAY_START_HOUR || localHour >= NIGHT_START_HOUR
+      ? DAY_START_HOUR
+      : NIGHT_START_HOUR;
+
+    nextChange.setHours(nextHour, 0, 0, 0);
+    if (nextChange <= now) {
+      nextChange.setDate(nextChange.getDate() + 1);
+    }
+
+    state.themeTimerId = window.setTimeout(function () {
+      setTheme(getThemeForLocalTime(), { skipSave: true });
+      scheduleAutoThemeChange();
+    }, nextChange.getTime() - now.getTime());
   }
 
   function setTheme(theme, options) {
@@ -520,9 +557,8 @@
   }
 
   function renderProgress() {
-    const readyLessons = state.lessons.filter(isLessonReady);
-    const total = readyLessons.length;
-    const completed = readyLessons.filter(function (lesson) {
+    const total = state.lessons.length;
+    const completed = state.lessons.filter(function (lesson) {
       return state.progress.completed.includes(lesson.id);
     }).length;
     const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
@@ -540,10 +576,12 @@
     );
   }
 
-  function getReadyStats(lessons) {
+  function getCompletionStats(lessons) {
     const total = lessons.length;
-    const ready = lessons.filter(isLessonReady).length;
-    return { ready: ready, total: total };
+    const completed = lessons.filter(function (lesson) {
+      return state.progress.completed.includes(lesson.id);
+    }).length;
+    return { completed: completed, total: total };
   }
 
   function renderTree() {
@@ -801,7 +839,7 @@
   }
 
   function renderOverview(options) {
-    const stats = getReadyStats(state.lessons);
+    const stats = getCompletionStats(state.lessons);
     clearTags();
     state.selectedId = null;
     updateRouteForHome(options);
@@ -811,7 +849,7 @@
     hidePlaylist();
     els.lessonPath.textContent = "American Beach Volleyball Club";
     els.lessonTitle.textContent = state.data.course.title;
-    els.lessonStatus.textContent = `${stats.ready}/${stats.total} lessons`;
+    els.lessonStatus.textContent = `${stats.completed}/${stats.total} lessons completed`;
     renderSkillHub({
       title: "Choose Your Skill",
       nodes: state.data.course.modules || [],
@@ -828,11 +866,11 @@
     updateBackButton();
     hideLessonDescription();
     const lessons = getDescendantLessons(module);
-    const stats = getReadyStats(lessons);
+    const stats = getCompletionStats(lessons);
 
     els.lessonPath.textContent = getPath(module.id);
     els.lessonTitle.textContent = getDisplayTitle(module);
-    els.lessonStatus.textContent = lessons.length ? `${stats.ready}/${stats.total} videos` : "Coming soon";
+    els.lessonStatus.textContent = lessons.length ? `${stats.completed}/${stats.total} videos completed` : "No lessons yet";
     if ((module.children || []).some(function (child) { return child.type !== "lesson"; })) {
       renderSkillHub({
         title: "Choose a Section",
@@ -915,12 +953,10 @@
       return;
     }
 
-    const readyLessons = lessons.filter(isLessonReady);
-    const completed = readyLessons.filter(function (lesson) {
+    const completed = lessons.filter(function (lesson) {
       return state.progress.completed.includes(lesson.id);
     }).length;
-    const percent = readyLessons.length === 0 ? 0 : Math.round((completed / readyLessons.length) * 100);
-    const comingSoon = lessons.length - readyLessons.length;
+    const percent = lessons.length === 0 ? 0 : Math.round((completed / lessons.length) * 100);
 
     els.appShell.classList.add("has-playlist");
     els.playlistPanel.hidden = false;
@@ -945,7 +981,7 @@
 
     const count = document.createElement("span");
     count.className = "playlist-count";
-    count.textContent = `${completed}/${readyLessons.length} complete`;
+    count.textContent = `${completed}/${lessons.length} complete`;
 
     const toggle = document.createElement("button");
     toggle.className = "playlist-toggle";
@@ -973,13 +1009,9 @@
     const summary = document.createElement("div");
     summary.className = "playlist-summary";
 
-    const ready = document.createElement("span");
-    ready.textContent = `${readyLessons.length} videos`;
-
-    const soon = document.createElement("span");
-    soon.textContent = `${comingSoon} coming soon`;
-
-    summary.append(ready, soon);
+    const lessonCount = document.createElement("span");
+    lessonCount.textContent = `${lessons.length} videos`;
+    summary.appendChild(lessonCount);
 
     const progress = document.createElement("div");
     progress.className = "playlist-progress";
@@ -997,10 +1029,9 @@
 
     els.coursePlaylist.append(header, summary, progress, list);
     renderMobilePlaylist(options, {
-      readyLessons: readyLessons,
+      total: lessons.length,
       completed: completed,
-      percent: percent,
-      comingSoon: comingSoon
+      percent: percent
     });
   }
 
@@ -1040,7 +1071,7 @@
 
     const count = document.createElement("span");
     count.className = "playlist-count";
-    count.textContent = `${stats.completed}/${stats.readyLessons.length}`;
+    count.textContent = `${stats.completed}/${stats.total}`;
 
     const toggle = document.createElement("button");
     toggle.className = "playlist-toggle";
@@ -1062,9 +1093,7 @@
     const lessonCount = document.createElement("span");
     lessonCount.textContent = `${lessons.length} lessons`;
 
-    const soon = document.createElement("span");
-    soon.textContent = `${stats.comingSoon} coming soon`;
-    summary.append(lessonCount, soon);
+    summary.appendChild(lessonCount);
 
     const progress = document.createElement("div");
     progress.className = "playlist-progress";
@@ -1300,27 +1329,27 @@
 
   function getSkillCardMeta(node) {
     if (node.type === "lesson") {
-      return isLessonReady(node) ? "1 lesson" : "Coming soon";
+      return "1 lesson";
     }
 
     const lessons = getDescendantLessons(node);
-    return lessons.length ? formatLessonCount(lessons.length) : "Coming soon";
+    return lessons.length ? formatLessonCount(lessons.length) : "No lessons";
   }
 
   function getSkillCardProgress(node) {
-    const readyLessons = getDescendantLessons(node).filter(isLessonReady);
-    const completed = readyLessons.filter(function (lesson) {
+    const lessons = getDescendantLessons(node);
+    const completed = lessons.filter(function (lesson) {
       return state.progress.completed.includes(lesson.id);
     }).length;
-    return readyLessons.length ? Math.round((completed / readyLessons.length) * 100) : 0;
+    return lessons.length ? Math.round((completed / lessons.length) * 100) : 0;
   }
 
   function getSkillCardAriaLabel(node) {
-    const readyLessons = getDescendantLessons(node).filter(isLessonReady);
-    const completed = readyLessons.filter(function (lesson) {
+    const lessons = getDescendantLessons(node);
+    const completed = lessons.filter(function (lesson) {
       return state.progress.completed.includes(lesson.id);
     }).length;
-    const progressText = readyLessons.length ? `${completed} of ${readyLessons.length} complete` : "no ready lessons";
+    const progressText = lessons.length ? `${completed} of ${lessons.length} complete` : "no lessons";
     return `Open ${getSkillCardTitle(node)}, ${getSkillCardMeta(node)}, ${progressText}`;
   }
 
@@ -1375,8 +1404,8 @@
   function renderVideo(lesson) {
     if (!isLessonReady(lesson)) {
       setVideoPlaceholder(
-        "Video coming soon",
-        "This lesson is part of the ABVC course and will be added once published."
+        "Video unavailable",
+        "This lesson is not currently available."
       );
       return;
     }
@@ -1392,8 +1421,8 @@
     }
 
     setVideoPlaceholder(
-      "Video coming soon",
-      "This lesson is part of the ABVC course and will be added once published."
+      "Video unavailable",
+      "This lesson is not currently available."
     );
   }
 
@@ -1453,7 +1482,7 @@
   function getLessonStatusLabel(lesson) {
     if (state.progress.completed.includes(lesson.id)) return "Done";
     if (isLessonReady(lesson)) return "";
-    return "Coming Soon";
+    return "Unavailable";
   }
 
   function getYouTubeEmbedUrl(lesson) {
@@ -1552,9 +1581,9 @@
     const ready = isLessonReady(lesson);
     const complete = state.progress.completed.includes(lesson.id);
     if (!ready) {
-      els.lessonStatus.textContent = "Coming Soon";
+      els.lessonStatus.textContent = "Unavailable";
       els.completeButton.disabled = true;
-      els.completeButton.textContent = "Coming Soon";
+      els.completeButton.textContent = "Unavailable";
       els.nextButton.disabled = !getNextLesson();
       els.nextButton.textContent = "Next Lesson";
     } else {
@@ -1900,8 +1929,8 @@
     const lessons = getDescendantLessons(node);
     if (!lessons.length) return "Soon";
 
-    const stats = getReadyStats(lessons);
-    return `${stats.ready}/${stats.total}`;
+    const stats = getCompletionStats(lessons);
+    return `${stats.completed}/${stats.total}`;
   }
 
   function nodeMatchesSearch(node) {
