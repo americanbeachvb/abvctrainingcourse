@@ -701,7 +701,6 @@
       // in place, matching the direction shown by its arrow.
       if (!isOpen) {
         enterCourseNode(node);
-        closeMobileSidebarAfterNavigation();
       }
       return;
     }

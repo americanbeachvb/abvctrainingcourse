@@ -17,7 +17,7 @@
     "Defense": 33,
     "Culture": 20,
     "Blocking": 9,
-    "Plyos": 13
+    "Explosive Strength / Jump": 13
   },
   "readyLessonsByFinalCategory": {
     "Strategy": 3,
@@ -29,7 +29,7 @@
     "Defense": 17,
     "Culture": 4,
     "Blocking": 1,
-    "Plyos": 13
+    "Explosive Strength / Jump": 13
   },
   "comingSoonLessonsByFinalCategory": {
     "Setting": 6,
@@ -53,7 +53,7 @@
     "Defense",
     "Culture",
     "Blocking",
-    "Plyos"
+    "Explosive Strength / Jump"
   ],
   "prohibitedUserFacingSections": [],
   "removedTemporaryCategories": [
