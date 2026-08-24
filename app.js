@@ -9,8 +9,6 @@
   const SIDEBAR_MIN_WIDTH = 220;
   const SIDEBAR_MAX_WIDTH = 480;
   const MAIN_MIN_WIDTH = 520;
-  const DAY_START_HOUR = 7;
-  const NIGHT_START_HOUR = 19;
   const SVG_NS = "http://www.w3.org/2000/svg";
   const SKILL_ICON_PATHS = {
     strategy: '<rect x="20" y="14" width="24" height="36" rx="3"></rect><path d="M27 14v-4h10v4"></path><path d="M26 25h2.5l1.4-2.4 2.8 5 1.8-3.1H38"></path><path d="M26 36h2.5l1.4-2.4 2.8 5 1.8-3.1H38"></path><path d="M25 29h.1M38 32h.1M25 40h.1M38 43h.1"></path>',
@@ -36,8 +34,6 @@
     openIds: new Set(),
     selectedId: null,
     search: "",
-    themePreference: "auto",
-    themeTimerId: null,
     progress: {
       viewed: [],
       completed: [],
@@ -157,11 +153,6 @@
 
     els.themeToggle.addEventListener("click", function () {
       const currentTheme = document.documentElement.dataset.theme || "dark";
-      state.themePreference = "manual";
-      if (state.themeTimerId) {
-        window.clearTimeout(state.themeTimerId);
-        state.themeTimerId = null;
-      }
       setTheme(currentTheme === "dark" ? "light" : "dark");
     });
 
@@ -225,45 +216,9 @@
   }
 
   function loadTheme() {
-    let theme = getThemeForLocalTime();
-    try {
-      const stored = window.localStorage.getItem(THEME_KEY);
-      if (stored === "light" || stored === "dark") {
-        theme = stored;
-        state.themePreference = "manual";
-      }
-    } catch (error) {
-      state.themePreference = "auto";
-    }
-
-    setTheme(theme, { skipSave: true });
-    scheduleAutoThemeChange();
-  }
-
-  function getThemeForLocalTime() {
-    const localHour = new Date().getHours();
-    return localHour >= DAY_START_HOUR && localHour < NIGHT_START_HOUR ? "light" : "dark";
-  }
-
-  function scheduleAutoThemeChange() {
-    if (state.themePreference !== "auto") return;
-
-    const now = new Date();
-    const nextChange = new Date(now);
-    const localHour = now.getHours();
-    const nextHour = localHour < DAY_START_HOUR || localHour >= NIGHT_START_HOUR
-      ? DAY_START_HOUR
-      : NIGHT_START_HOUR;
-
-    nextChange.setHours(nextHour, 0, 0, 0);
-    if (nextChange <= now) {
-      nextChange.setDate(nextChange.getDate() + 1);
-    }
-
-    state.themeTimerId = window.setTimeout(function () {
-      setTheme(getThemeForLocalTime(), { skipSave: true });
-      scheduleAutoThemeChange();
-    }, nextChange.getTime() - now.getTime());
+    // Dark is the shared default. A stored value is only written after a user
+    // explicitly uses the toggle; it is not used to choose the initial theme.
+    setTheme("dark", { skipSave: true });
   }
 
   function setTheme(theme, options) {
