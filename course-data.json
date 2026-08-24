@@ -4784,6 +4784,198 @@
         "subcategory": null,
         "children": [
           {
+            "id": "coaching",
+            "type": "module",
+            "title": "Coaching",
+            "description": "",
+            "category": "For Coaches",
+            "subcategory": "Coaching",
+            "children": [
+              {
+                "id": "coaching-foundations",
+                "type": "module",
+                "title": "Coaching Foundations",
+                "description": "",
+                "children": [
+                  {
+                    "id": "coaching-foundations-coaching-is-a-craft",
+                    "type": "lesson",
+                    "category": "For Coaches",
+                    "subcategory": "Coaching Foundations",
+                    "title": "Coaching - Coaching is a Craft",
+                    "description": "",
+                    "sourceFolder": "Coaching",
+                    "youtubeUrl": "https://www.youtube.com/shorts/DFP8BnXa65c",
+                    "status": "ready",
+                    "provider": "youtube",
+                    "videoId": "DFP8BnXa65c",
+                    "videoUrl": "https://www.youtube.com/shorts/DFP8BnXa65c",
+                    "thumbnail": "https://img.youtube.com/vi/DFP8BnXa65c/hqdefault.jpg",
+                    "duration": "Short",
+                    "notes": [],
+                    "drills": [],
+                    "tags": [
+                      "For Coaches",
+                      "Coaching Foundations"
+                    ],
+                    "oldPublished": false,
+                    "oldPublishedTitle": null,
+                    "oldMatchNotes": null,
+                    "correctedUrlTitle": "Coaching - Coaching is a Craft",
+                    "correctedUrlMatchedOn": "Coaching - Coaching is a Craft"
+                  },
+                  {
+                    "id": "coaching-foundations-john-wooden-story",
+                    "type": "lesson",
+                    "category": "For Coaches",
+                    "subcategory": "Coaching Foundations",
+                    "title": "Coaching - John Wooden Story",
+                    "description": "",
+                    "sourceFolder": "Coaching",
+                    "youtubeUrl": "https://www.youtube.com/shorts/437uux0Bztc",
+                    "status": "ready",
+                    "provider": "youtube",
+                    "videoId": "437uux0Bztc",
+                    "videoUrl": "https://www.youtube.com/shorts/437uux0Bztc",
+                    "thumbnail": "https://img.youtube.com/vi/437uux0Bztc/hqdefault.jpg",
+                    "duration": "Short",
+                    "notes": [],
+                    "drills": [],
+                    "tags": [
+                      "For Coaches",
+                      "Coaching Foundations"
+                    ],
+                    "oldPublished": false,
+                    "oldPublishedTitle": null,
+                    "oldMatchNotes": null,
+                    "correctedUrlTitle": "Coaching - John Wooden Story",
+                    "correctedUrlMatchedOn": "Coaching - John Wooden Story"
+                  },
+                  {
+                    "id": "coaching-foundations-the-game-teaches-the-game",
+                    "type": "lesson",
+                    "category": "For Coaches",
+                    "subcategory": "Coaching Foundations",
+                    "title": "Coaching - The Game Teaches The Game",
+                    "description": "",
+                    "sourceFolder": "Coaching",
+                    "youtubeUrl": "https://www.youtube.com/shorts/325yPaV7geM",
+                    "status": "ready",
+                    "provider": "youtube",
+                    "videoId": "325yPaV7geM",
+                    "videoUrl": "https://www.youtube.com/shorts/325yPaV7geM",
+                    "thumbnail": "https://img.youtube.com/vi/325yPaV7geM/hqdefault.jpg",
+                    "duration": "Short",
+                    "notes": [],
+                    "drills": [],
+                    "tags": [
+                      "For Coaches",
+                      "Coaching Foundations"
+                    ],
+                    "oldPublished": false,
+                    "oldPublishedTitle": null,
+                    "oldMatchNotes": null,
+                    "correctedUrlTitle": "Coaching - The Game Teaches The Game",
+                    "correctedUrlMatchedOn": "Coaching - The Game Teaches The Game"
+                  },
+                  {
+                    "id": "coaching-foundations-wind-is-the-best-coach",
+                    "type": "lesson",
+                    "category": "For Coaches",
+                    "subcategory": "Coaching Foundations",
+                    "title": "Coaching - Wind is the Best Coach",
+                    "description": "",
+                    "sourceFolder": "Coaching",
+                    "youtubeUrl": "https://www.youtube.com/shorts/Jq9jWwvu7N8",
+                    "status": "ready",
+                    "provider": "youtube",
+                    "videoId": "Jq9jWwvu7N8",
+                    "videoUrl": "https://www.youtube.com/shorts/Jq9jWwvu7N8",
+                    "thumbnail": "https://img.youtube.com/vi/Jq9jWwvu7N8/hqdefault.jpg",
+                    "duration": "Short",
+                    "notes": [],
+                    "drills": [],
+                    "tags": [
+                      "For Coaches",
+                      "Coaching Foundations"
+                    ],
+                    "oldPublished": false,
+                    "oldPublishedTitle": null,
+                    "oldMatchNotes": null,
+                    "correctedUrlTitle": "Coaching - Wind is the Best Coach",
+                    "correctedUrlMatchedOn": "Coaching - Wind is the Best Coach"
+                  }
+                ],
+                "category": "For Coaches",
+                "subcategory": "Coaching Foundations"
+              },
+              {
+                "id": "coaching-drill-design",
+                "type": "module",
+                "title": "Drill Design",
+                "description": "",
+                "children": [
+                  {
+                    "id": "coaching-drill-design-philosophies",
+                    "type": "lesson",
+                    "category": "For Coaches",
+                    "subcategory": "Drill Design",
+                    "title": "Coaching - Drill Design - Philosophies",
+                    "description": "",
+                    "sourceFolder": "Coaching > Drill Design",
+                    "youtubeUrl": "https://www.youtube.com/shorts/WJPkKL40o_Y",
+                    "status": "ready",
+                    "provider": "youtube",
+                    "videoId": "WJPkKL40o_Y",
+                    "videoUrl": "https://www.youtube.com/shorts/WJPkKL40o_Y",
+                    "thumbnail": "https://img.youtube.com/vi/WJPkKL40o_Y/hqdefault.jpg",
+                    "duration": "Short",
+                    "notes": [],
+                    "drills": [],
+                    "tags": [
+                      "For Coaches",
+                      "Drill Design"
+                    ],
+                    "oldPublished": false,
+                    "oldPublishedTitle": null,
+                    "oldMatchNotes": null,
+                    "correctedUrlTitle": "Coaching - Drill Design - Philosophies",
+                    "correctedUrlMatchedOn": "Coaching - Drill Design - Philosophies"
+                  },
+                  {
+                    "id": "coaching-drill-design-quarter-court",
+                    "type": "lesson",
+                    "category": "For Coaches",
+                    "subcategory": "Drill Design",
+                    "title": "Coaching - Drill Design - Quarter Court",
+                    "description": "",
+                    "sourceFolder": "Coaching > Drill Design",
+                    "youtubeUrl": "https://www.youtube.com/shorts/g-usDPYL7WQ",
+                    "status": "ready",
+                    "provider": "youtube",
+                    "videoId": "g-usDPYL7WQ",
+                    "videoUrl": "https://www.youtube.com/shorts/g-usDPYL7WQ",
+                    "thumbnail": "https://img.youtube.com/vi/g-usDPYL7WQ/hqdefault.jpg",
+                    "duration": "Short",
+                    "notes": [],
+                    "drills": [],
+                    "tags": [
+                      "For Coaches",
+                      "Drill Design"
+                    ],
+                    "oldPublished": false,
+                    "oldPublishedTitle": null,
+                    "oldMatchNotes": null,
+                    "correctedUrlTitle": "Coaching - Drill Design - Quarter Court",
+                    "correctedUrlMatchedOn": "Coaching - Drill Design - Quarter Court"
+                  }
+                ],
+                "category": "For Coaches",
+                "subcategory": "Drill Design"
+              }
+            ]
+          },
+          {
             "id": "game-like-training",
             "type": "module",
             "title": "Game Like Training",
