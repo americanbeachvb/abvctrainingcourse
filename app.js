@@ -802,7 +802,7 @@
     hideLessonDescription();
     hidePlaylist();
     els.lessonPath.textContent = "American Beach Volleyball Club";
-    els.lessonTitle.textContent = state.data.course.title;
+    els.lessonTitle.textContent = "Training Library";
     els.lessonStatus.textContent = `${stats.completed}/${stats.total} lessons completed`;
     renderSkillHub({
       title: "Choose Your Skill",

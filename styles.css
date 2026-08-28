@@ -247,19 +247,22 @@ input {
 
 .brand-lockup {
   display: flex;
-  gap: 0.95rem;
+  gap: 0.72rem;
   align-items: center;
-  padding: 1.1rem;
+  padding: 0.82rem 0.9rem;
   border-bottom: 1px solid var(--line);
-  background: var(--panel);
+  background: linear-gradient(180deg, var(--panel) 0%, var(--panel-soft) 100%);
 }
 
 .brand-home-button {
-  display: block;
+  display: grid;
+  width: 2.7rem;
+  height: 2.7rem;
+  place-items: center;
   flex: 0 0 auto;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 0.72rem;
+  background: var(--panel);
   padding: 0;
   color: inherit;
   cursor: pointer;
@@ -267,7 +270,7 @@ input {
 
 .brand-home-button:hover .brand-logo,
 .brand-home-button:focus-visible .brand-logo {
-  border-color: var(--line-strong);
+  transform: scale(1.06);
 }
 
 .brand-home-button:focus-visible {
@@ -276,6 +279,8 @@ input {
 }
 
 .brand-copy {
+  display: grid;
+  gap: 0.1rem;
   min-width: 0;
 }
 
@@ -286,8 +291,8 @@ input {
   height: 2rem;
   margin-left: auto;
   border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  background: var(--gray-button);
+  border-radius: 0.58rem;
+  background: transparent;
   color: var(--ink);
   cursor: pointer;
   font-size: 1.1rem;
@@ -301,12 +306,12 @@ input {
 
 .app-shell.is-sidebar-collapsed .brand-lockup {
   justify-content: center;
-  padding: 0.95rem 0.6rem;
+  padding: 0.75rem 0.45rem;
 }
 
 .app-shell.is-sidebar-collapsed .brand-logo {
-  width: 3rem;
-  height: 3rem;
+  width: 1.9rem;
+  height: 1.9rem;
 }
 
 .app-shell.is-sidebar-collapsed .brand-copy,
@@ -322,7 +327,7 @@ input {
 
 .app-shell.is-sidebar-collapsed .sidebar-toggle {
   position: absolute;
-  top: 4.35rem;
+  top: 3.6rem;
   left: 50%;
   width: 1.8rem;
   height: 1.8rem;
@@ -412,22 +417,27 @@ input {
 
 .brand-logo {
   display: block;
-  width: 4.35rem;
-  height: 4.35rem;
+  width: 2rem;
+  height: 2rem;
   flex: 0 0 auto;
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
+  border: 0;
+  border-radius: 0.42rem;
   object-fit: cover;
   object-position: center;
+  transition: transform 160ms ease;
 }
 
 .eyebrow {
-  margin: 0 0 0.16rem;
+  margin: 0;
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: 0.59rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
   text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 h1,
@@ -440,11 +450,11 @@ p {
 h1 {
   margin-bottom: 0;
   color: var(--ink-strong);
-  font-size: 1.08rem;
+  font-size: 0.98rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.015em;
   line-height: 1.15;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 h2 {
@@ -1654,12 +1664,12 @@ h3 {
 
   .app-shell.is-sidebar-collapsed .brand-lockup {
     justify-content: flex-start;
-    padding: 1.1rem;
+    padding: 0.82rem 0.9rem;
   }
 
   .app-shell.is-sidebar-collapsed .brand-logo {
-    width: 4.35rem;
-    height: 4.35rem;
+    width: 2rem;
+    height: 2rem;
   }
 
   .app-shell.is-sidebar-collapsed .brand-copy,
@@ -1993,13 +2003,13 @@ h3 {
   }
 
   .brand-lockup {
-    align-items: flex-start;
-    padding: 0.85rem;
+    align-items: center;
+    padding: 0.75rem 0.85rem;
   }
 
   .brand-logo {
-    width: 3.5rem;
-    height: 3.5rem;
+    width: 1.9rem;
+    height: 1.9rem;
   }
 
   .theme-row,
