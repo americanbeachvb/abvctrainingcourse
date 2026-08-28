@@ -1,4 +1,4 @@
-# ABVC online training
+# American Beach Volleyball Club Online Training
 
 Static course app for American Beach Volleyball Club training videos.
 
