@@ -10,6 +10,29 @@
   const SIDEBAR_MAX_WIDTH = 480;
   const MAIN_MIN_WIDTH = 520;
   const SVG_NS = "http://www.w3.org/2000/svg";
+  let lastTrackedCourseView = null;
+
+  function trackCourseEvent(name, parameters) {
+    if (window.location.hostname !== "learn.americanbeachvolleyballclub.com") return;
+    if (typeof window.gtag !== "function") return;
+    window.gtag("event", name, Object.assign({ send_to: "G-4H2KWQCD0J" }, parameters));
+  }
+
+  function courseEventDetails(node) {
+    return node ? {
+      content_id: node.id,
+      content_type: node.type,
+      content_name: getDisplayTitle(node),
+      course_section: getDisplayTitle(getAncestors(node.id)[0] || node)
+    } : { content_id: "home", content_type: "home", content_name: "Training Library" };
+  }
+
+  function trackCourseView(node) {
+    const id = node ? node.id : "home";
+    if (lastTrackedCourseView === id) return;
+    lastTrackedCourseView = id;
+    trackCourseEvent("course_view", courseEventDetails(node));
+  }
   const SKILL_ICON_PATHS = {
     strategy: '<rect x="20" y="14" width="24" height="36" rx="3"></rect><path d="M27 14v-4h10v4"></path><path d="M26 25h2.5l1.4-2.4 2.8 5 1.8-3.1H38"></path><path d="M26 36h2.5l1.4-2.4 2.8 5 1.8-3.1H38"></path><path d="M25 29h.1M38 32h.1M25 40h.1M38 43h.1"></path>',
     setting: '<circle cx="32" cy="23" r="12"></circle><path d="M24 19c5 3 11 4 18 3"></path><path d="M29 12c-1 6 0 12 4 22"></path><path d="M40 15c-5 4-8 9-9 17"></path><path d="M19 34c-4 4-5 9-2 15"></path><path d="M22 36l5 13"></path><path d="M45 34c4 4 5 9 2 15"></path><path d="M42 36l-5 13"></path>',
@@ -113,6 +136,15 @@
   }
 
   function bindEvents() {
+    document.addEventListener("click", function (event) {
+      const control = event.target.closest("button, a");
+      if (!control) return;
+      const node = state.nodesById.get(control.dataset.analyticsNodeId);
+      if (!node && !control.id) return;
+      trackCourseEvent("course_click", Object.assign(courseEventDetails(node), {
+        control_name: control.id || control.classList[0]
+      }));
+    }, true);
     els.mobileMenuButton.setAttribute("aria-expanded", "false");
 
     els.brandHomeButton.addEventListener("click", function () {
@@ -579,6 +611,7 @@
     const row = document.createElement("button");
     row.type = "button";
     row.className = "tree-row";
+    row.dataset.analyticsNodeId = node.id;
     row.dataset.nodeType = node.type;
     row.dataset.empty = String(node.type !== "lesson" && (node.children || []).length === 0);
     row.style.paddingLeft = `${0.6 + Math.min(depth, 4) * 0.2}rem`;
@@ -790,6 +823,7 @@
 
     render();
     scrollMobileContentToTop();
+    trackCourseView(node);
   }
 
   function renderOverview(options) {
@@ -812,6 +846,7 @@
     });
     els.completeButton.disabled = true;
     els.nextButton.disabled = state.lessons.length === 0;
+    trackCourseView(null);
   }
 
   function renderModule(module) {
@@ -1140,6 +1175,7 @@
     const row = document.createElement("button");
     row.type = "button";
     row.className = "playlist-row";
+    row.dataset.analyticsNodeId = lesson.id;
     row.title = getDisplayTitle(lesson);
     row.setAttribute("aria-current", String(lesson.id === activeLessonId));
 
@@ -1245,6 +1281,7 @@
     const card = document.createElement("button");
     card.type = "button";
     card.className = "skill-card";
+    card.dataset.analyticsNodeId = node.id;
     card.dataset.nodeType = node.type;
     card.dataset.cardVariant = variant || "section";
     card.setAttribute("aria-label", getSkillCardAriaLabel(node));
@@ -1398,6 +1435,7 @@
     button.appendChild(inner);
     button.addEventListener("click", function () {
       markViewed(lesson.id);
+      trackCourseEvent("video_play_requested", courseEventDetails(lesson));
       const iframe = document.createElement("iframe");
       iframe.src = getYouTubeEmbedUrl(lesson);
       iframe.title = getDisplayTitle(lesson);
@@ -1428,6 +1466,7 @@
     link.innerHTML = '<span class="video-placeholder"><span class="play-badge" aria-hidden="true"></span><p>Open the linked video</p></span>';
     link.addEventListener("click", function () {
       markViewed(lesson.id);
+      trackCourseEvent("video_play_requested", courseEventDetails(lesson));
     });
     els.videoMount.replaceWith(link);
     els.videoMount = link;
